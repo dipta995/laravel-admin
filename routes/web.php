@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\RolesController;
 use App\Http\Controllers\Backend\UserController;
@@ -20,11 +21,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::group(['prefix' => 'admin'], function () {
-    Route::get('/',[DashboardController::class,'index'])->name('home');
-    Route::resource('roles', RolesController::class,['names'=>'admin.roles']);
-    Route::resource('users', UserController::class,['names'=>'admin.users']);
-});
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+Route::get('/login',[AuthenticatedSessionController::class,'create'])->name('admin.login');
+
+
+Route::get('/',[DashboardController::class,'index'])->name('home');
+Route::resource('roles', RolesController::class,['names'=>'admin.roles']);
+Route::resource('users', UserController::class,['names'=>'admin.users']);
+});
+Route::get('/dashboard', function () {
     return view('dashboard');
-})->name('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';

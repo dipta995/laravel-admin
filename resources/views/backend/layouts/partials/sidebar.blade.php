@@ -402,10 +402,10 @@
                         <form method="POST" action="{{ route('logout') }}" x-data>
                             @csrf
                                 <i class="bi bi-cash"></i>
-                            <x-jet-dropdown-link  href="{{ route('logout') }}"
+                            <a  href="{{ route('logout') }}"
                                      @click.prevent="$root.submit();">
                                      <span> {{ __('Log Out') }}</span>
-                            </x-jet-dropdown-link>
+                            </a>
                         </form>
 
                 </li>
