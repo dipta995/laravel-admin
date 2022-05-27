@@ -9,7 +9,13 @@
     <div class="page-heading">
         <h3>Profile Statistics</h3>
     </div>
-    <div class="page-content">
+@extends('backend.layouts.master')
+@section('title')
+    Create User
+@endsection
+@section('admin-content')
+@include('backend.layouts.partials.page-header', $pageHeader)
+<div class="page-content">
         <section class="row">
             <div class="col-12 col-lg-9">
                 <div class="row">
@@ -273,5 +279,5 @@
             </div>
         </section>
     </div>
-   
+
 @endsection

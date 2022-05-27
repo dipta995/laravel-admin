@@ -1,5 +1,5 @@
 @php
-    $userGuard = Auth::guard('web')->user();
+    $userGuard = Auth::guard('admin')->user();
 @endphp
 <div id="sidebar" class="active">
     <div class="sidebar-wrapper active">
@@ -48,14 +48,33 @@
                 <li class="sidebar-item  has-sub">
                     <a href="#" class='sidebar-link'>
                         <i class="bi bi-stack"></i>
+                        <span>Admin's</span>
+                    </a>
+                    <ul class="submenu" {{ Route::is('admin.admins.create') || Route::is('admin.admins.edit') || Route::is('admin.admins.index') ? 'style=display:block;' : '' }} >
+                        <li class="submenu-item ">
+                            @if ( $userGuard->can('admin.view'))
+                            <a {{  Route::is('admin.admins.edit') || Route::is('admin.admins.index') ? 'style=color:#435ebe;' : '' }}  href="{{ route('admin.admins.index') }}">User's</a>
+                            @endif
+                            @if ( $userGuard->can('admin.create'))
+                            <a {{  Route::is('admin.admins.create') ? 'style=color:#435ebe;' : '' }} href="{{ route('admin.admins.create') }}">Create User's</a>
+                            @endif
+                        </li>
+                    </ul>
+                </li>
+                @endif
+                {{-- User --}}
+                @if ( $userGuard->can('user.view') || $userGuard->can('user.create') || $userGuard->can('user.edit') || $userGuard->can('user.delete'))
+                <li class="sidebar-item  has-sub">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-stack"></i>
                         <span>User's</span>
                     </a>
                     <ul class="submenu" {{ Route::is('admin.users.create') || Route::is('admin.users.edit') || Route::is('admin.users.index') ? 'style=display:block;' : '' }} >
                         <li class="submenu-item ">
-                            @if ( $userGuard->can('admin.view'))
+                            @if ( $userGuard->can('user.view'))
                             <a {{  Route::is('admin.users.edit') || Route::is('admin.users.index') ? 'style=color:#435ebe;' : '' }}  href="{{ route('admin.users.index') }}">User's</a>
                             @endif
-                            @if ( $userGuard->can('admin.create'))
+                            @if ( $userGuard->can('user.create'))
                             <a {{  Route::is('admin.users.create') ? 'style=color:#435ebe;' : '' }} href="{{ route('admin.users.create') }}">Create User's</a>
                             @endif
                         </li>
@@ -399,10 +418,10 @@
 
                 <li class="sidebar-item  ">
 
-                        <form method="POST" action="{{ route('logout') }}" x-data>
+                        <form method="POST" action="{{ route('admin.logout.submit') }}" x-data>
                             @csrf
                                 <i class="bi bi-cash"></i>
-                            <a  href="{{ route('logout') }}"
+                            <a  href="{{ route('admin.login') }}"
                                      @click.prevent="$root.submit();">
                                      <span> {{ __('Log Out') }}</span>
                             </a>

@@ -9,6 +9,10 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('backend.pages.dashboard.index');
+        $pageHeader=[
+            'title' => "Booking",
+            'sub_title' => ""
+        ];
+        return view('backend.pages.dashboard.index',compact('pageHeader'));
     }
 }

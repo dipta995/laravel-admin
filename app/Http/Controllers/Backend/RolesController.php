@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,7 @@ class RolesController extends Controller
     public function __construct()
     {
         $this->middleware(function($request,$next){
-            $this->user = Auth::guard('web')->user();
+            $this->user = Auth::guard('admin')->user();
             return $next($request);
         });
     }
@@ -34,8 +35,12 @@ class RolesController extends Controller
         if (is_null($this->user) || !$this->user->can('role.view')) {
             abort(403,'Unauthorized Access');
         }
+        $pageHeader=[
+            'title' => "Booking",
+            'sub_title' => ""
+        ];
         $roles = Role::all();
-        return view('backend.pages.roles.index',compact('roles'));
+        return view('backend.pages.roles.index',compact('roles','pageHeader'));
     }
 
     /**
@@ -48,10 +53,13 @@ class RolesController extends Controller
         if (is_null($this->user) || !$this->user->can('role.create')) {
             abort(403,'Unauthorized Access');
         }
+        $pageHeader=[
+            'title' => "Booking",
+            'sub_title' => ""
+        ];
         $permission_groups=User::getpermissionGroup();
-
         $permissions = Permission::all();
-        return view('backend.pages.roles.create',compact('permissions','permission_groups'));
+        return view('backend.pages.roles.create',compact('permissions','permission_groups','pageHeader'));
     }
 
     /**
@@ -70,7 +78,7 @@ class RolesController extends Controller
         ],[
             'name.required' => 'Please Insert New Role Name'
         ]);
-        $role = Role::create(['name' => $request->name]);
+        $role = Role::create(['name' => $request->name, 'guard_name' => 'admin']);
         $permissions = $request->permissions;
         if ($role) {
             if (!empty($permissions)) {
@@ -102,10 +110,14 @@ class RolesController extends Controller
         if (is_null($this->user) || !$this->user->can('role.edit')) {
             abort(403,'Unauthorized Access');
         }
-        $role = Role::findById($id);
-        $permission_groups=User::getpermissionGroup();
+        $pageHeader=[
+            'title' => "Booking",
+            'sub_title' => ""
+        ];
+        $role = Role::findById($id,'admin');
+        $permission_groups=Admin::getpermissionGroups();
         $permissions = Permission::all();
-        return view('backend.pages.roles.edit',compact('role','permissions','permission_groups'));
+        return view('backend.pages.roles.edit',compact('role','permissions','permission_groups','pageHeader'));
     }
 
     /**
@@ -126,7 +138,7 @@ class RolesController extends Controller
             'name.required' => 'Please Insert New Role Name'
         ]);
         // $role = Role::create(['name' => $request->name]);
-        $role = Role::findById($id);
+        $role = Role::findById($id,'admin');
         $permissions = $request->permissions;
         if ($role) {
             if (!empty($permissions)) {
@@ -149,7 +161,7 @@ class RolesController extends Controller
         if (is_null($this->user) || !$this->user->can('role.delete')) {
             abort(403,'Unauthorized Access');
         }
-        $role = Role::findById($id);
+        $role = Role::findById($id,'admin');
         if (!is_null($role)) {
             $role->delete();
         }

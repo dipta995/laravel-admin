@@ -15,16 +15,20 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
-                           <form action="{{ route('admin.users.update',$user->id) }}" method="POST">
+                           <form action="{{ route('admin.admins.update',$admin->id) }}" method="POST">
                             @method('PUT')
                             @csrf
                             <div class="form-group">
                                 <label for="basicInput">Name</label>
-                                <input type="text" name="name" class="form-control" id="basicInput" value="{{ $user->name }}">
+                                <input type="text" name="name" class="form-control" id="basicInput" value="{{ $admin->name }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="basicInput">Username</label>
+                                <input type="text" name="username" class="form-control" id="basicInput" value="{{ $admin->username }}">
                             </div>
                             <div class="form-group">
                                 <label for="basicInput">Email</label>
-                                <input type="email" name="email" class="form-control" id="basicInput" value="{{ $user->email }}">
+                                <input type="email" name="email" class="form-control" id="basicInput" value="{{ $admin->email }}">
                             </div>
                             <div class="form-group">
                                 <label for="basicInput">Password</label>
@@ -36,13 +40,18 @@
                             </div>
 
 
-                            {{-- <div class="form-group">
+                            <div class="form-group">
                                 <select name="roles[]" class="choices form-select multiple-remove" multiple="multiple">
+
                                         @foreach ($roles as $role)
-                                        <option {{ $user->hasRole($role->name) ? 'selected':'' }}  value="{{ $role->id }}">{{ $role->name }}</option>
+
+                                        <option {{ $admin->hasRole($role->name) ? 'selected':'' }}  value="{{ $role->id }}">{{ $role->name }}</option>
                                         @endforeach
+
+
+
                                 </select>
-                            </div> --}}
+                            </div>
 
 
                               {{-- <div class="form-check form-switch">

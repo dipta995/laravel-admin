@@ -1,26 +1,10 @@
 @extends('backend.layouts.master')
 @section('title')
-    Users
+    Create User
 @endsection
-
 @section('admin-content')
-
-
-<div class="row">
-    <div class="col-12 col-md-6 order-md-1 order-last">
-        <h3>DataTable Jquery</h3>
-        <p class="text-subtitle text-muted">For user to check they list</p>
-    </div>
-    <div class="col-12 col-md-6 order-md-2 order-first">
-        <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">DataTable Jquery</li>
-            </ol>
-        </nav>
-    </div>
-</div>
-    <div class="page-content">
+@include('backend.layouts.partials.page-header', $pageHeader)
+<div class="page-content">
   <!-- Basic Tables start -->
   <section class="section">
     <div class="card">
@@ -34,7 +18,6 @@
                         <th>Sl</th>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Roles</th>
                         <th>Action</th>
 
                     </tr>
@@ -45,17 +28,13 @@
                             <td>{{ $loop->index+1 }}</td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
-                            <td>
-                                @foreach ($user->roles as $item)
-                                <span class="badge bg-success">{{ $item->name }}</span>
-                                @endforeach
-                            </td>
+
 
                             <td>
-                                @if ( Auth::guard('web')->user()->can('admin.edit'))
+                                @if ( Auth::guard('admin')->user()->can('admin.edit'))
                                 <a class="badge bg-info" href="{{ route('admin.users.edit',$user->id) }}">Edit</a>
                                 @endif
-                                @if ( Auth::guard('web')->user()->can('admin.delete'))
+                                @if ( Auth::guard('admin')->user()->can('admin.delete'))
                                 <a class="badge bg-danger" href="">Delete</a>
                                 @endif
                             </td>

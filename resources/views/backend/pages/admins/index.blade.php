@@ -17,26 +17,29 @@
                     <tr>
                         <th>Sl</th>
                         <th>Name</th>
-                        <th>Permissions</th>
+                        <th>Email</th>
+                        <th>Roles</th>
                         <th>Action</th>
 
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        @foreach ($roles as $role)
+                        @foreach ($admins as $user)
                             <td>{{ $loop->index+1 }}</td>
-                            <td>{{ $role->name }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
                             <td>
-                                @foreach ($role->permissions as $item)
+                                @foreach ($user->roles as $item)
                                 <span class="badge bg-success">{{ $item->name }}</span>
                                 @endforeach
                             </td>
+
                             <td>
-                                @if ( Auth::guard('admin')->user()->can('role.edit'))
-                                <a class="badge bg-info" href="{{ route('admin.roles.edit',$role->id) }}">Edit</a>
+                                @if ( Auth::guard('admin')->user()->can('admin.edit'))
+                                <a class="badge bg-info" href="{{ route('admin.admins.edit',$user->id) }}">Edit</a>
                                 @endif
-                                @if ( Auth::guard('admin')->user()->can('role.delete'))
+                                @if ( Auth::guard('admin')->user()->can('admin.delete'))
                                 <a class="badge bg-danger" href="">Delete</a>
                                 @endif
                             </td>

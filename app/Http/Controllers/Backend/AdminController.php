@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
-class UserController extends Controller
+class AdminController extends Controller
 {
     public $user;
 
@@ -34,8 +34,8 @@ class UserController extends Controller
             'title' => "Booking",
             'sub_title' => ""
         ];
-        $users = User::all();
-        return view('backend.pages.users.index',compact('users','pageHeader'));
+        $admins = Admin::all();
+        return view('backend.pages.admins.index',compact('admins','pageHeader'));
     }
 
     /**
@@ -53,7 +53,7 @@ class UserController extends Controller
             'sub_title' => ""
         ];
         $roles = Role::all();
-        return view('backend.pages.users.create',compact('roles','pageHeader'));
+        return view('backend.pages.admins.create',compact('roles','pageHeader'));
     }
 
     /**
@@ -67,32 +67,34 @@ class UserController extends Controller
         if (is_null($this->user) || !$this->user->can('admin.create')) {
             abort(403,'Unauthorized Access');
         }
+
         $request->validate([
             'name'=> 'required|max:50',
-            'email'=> 'required|unique:users',
+            'email'=> 'required|unique:admins',
             'password'=> 'required|min:8|confirmed',
         ],[
-            'name.required' => 'Please Insert New User Name'
+            'name.required' => 'Please Insert New Admin Name'
         ]);
-        $user = new User();
+        $user = new Admin();
         $user->name = $request->name;
+        $user->username = $request->username;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->save();
         if ($request->roles) {
             $user->assignRole($request->roles);
         }
-        session()->flash('success','User has Been created');
-        return redirect()->route('admin.users.index');
+        session()->flash('success','Admin has Been created');
+        return redirect()->route('admin.admins.index');
 
 
-        // $user = User::create(['name' => $request->name]);
+        // $user = Admin::create(['name' => $request->name]);
         // $permissions = $request->permissions;
         // if ($user) {
         //     if (!empty($permissions)) {
         //         $user->syncPermissions($permissions);
         //     }
-        //     return back()->with('success','New User Created');
+        //     return back()->with('success','New Admin Created');
         // }
     }
 
@@ -105,6 +107,7 @@ class UserController extends Controller
     public function show($id)
     {
         //
+
     }
 
     /**
@@ -122,9 +125,9 @@ class UserController extends Controller
             'title' => "Booking",
             'sub_title' => ""
         ];
-        $user = User::find($id);
+        $admin = Admin::find($id);
         $roles = Role::all();
-        return view('backend.pages.users.edit',compact('user','roles','pageHeader'));
+        return view('backend.pages.admins.edit',compact('admin','roles','pageHeader'));
     }
 
     /**
@@ -140,15 +143,15 @@ class UserController extends Controller
             abort(403,'Unauthorized Access');
         }
 
-        $user = User::find($id);
+        $user = Admin::find($id);
         $request->validate([
             'name'=> 'required|max:50',
-            'email'=> 'required|email|unique:users,email,'.$id,
+            'email'=> 'required|email|unique:admins,email,'.$id,
             'password'=> 'nullable|min:8|confirmed',
         ],[
-            'name.required' => 'Please Insert New User Name'
+            'name.required' => 'Please Insert New Admin Name'
         ]);
-        // $user = new User();
+        // $user = new Admin();
         $user->name = $request->name;
         $user->email = $request->email;
         if ($request->password !=null) {
@@ -159,7 +162,7 @@ class UserController extends Controller
         if ($request->roles) {
             $user->assignRole($request->roles);
         }
-        session()->flash('success','User has Been Updated');
+        session()->flash('success','Admin has Been Updated');
         return back();
 
     }
@@ -175,7 +178,7 @@ class UserController extends Controller
         if (is_null($this->user) || !$this->user->can('admin.delete')) {
             abort(403,'Unauthorized Access');
         }
-         $user = User::findById($id);
+         $user = Admin::findById($id);
          if (!is_null($user)) {
              $user->delete();
          }

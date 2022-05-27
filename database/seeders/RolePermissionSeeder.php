@@ -35,17 +35,6 @@ class RolePermissionSeeder extends Seeder
                 ]
             ],
             [
-                'group_name' => 'blog',
-                'permissions' => [
-                    // Blog Permissions
-                    'blog.create',
-                    'blog.view',
-                    'blog.edit',
-                    'blog.delete',
-                    'blog.approve',
-                ]
-            ],
-            [
                 'group_name' => 'admin',
                 'permissions' => [
                     // admin Permissions
@@ -54,6 +43,17 @@ class RolePermissionSeeder extends Seeder
                     'admin.edit',
                     'admin.delete',
                     'admin.approve',
+                ]
+            ],
+            [
+                'group_name' => 'user',
+                'permissions' => [
+                    // user Permissions
+                    'user.create',
+                    'user.view',
+                    'user.edit',
+                    'user.delete',
+                    'user.approve',
                 ]
             ],
             [
@@ -93,7 +93,7 @@ class RolePermissionSeeder extends Seeder
         //here role_id =superadmin model_id=customer_id
         DB::table('model_has_roles')->insert([
             'role_id' => 1,
-            'model_type' => 'App\Models\User',
+            'model_type' => 'App\Models\Admin',
             'model_id' => 1
 
         ]);
