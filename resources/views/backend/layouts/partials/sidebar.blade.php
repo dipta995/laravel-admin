@@ -421,10 +421,7 @@
                         <form method="POST" action="{{ route('admin.logout.submit') }}" x-data>
                             @csrf
                                 <i class="bi bi-cash"></i>
-                            <a  href="{{ route('admin.login') }}"
-                                     @click.prevent="$root.submit();">
-                                     <span> {{ __('Log Out') }}</span>
-                            </a>
+                            <button type="submit">Log Out</button>
                         </form>
 
                 </li>

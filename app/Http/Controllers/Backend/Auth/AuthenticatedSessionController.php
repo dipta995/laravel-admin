@@ -29,7 +29,7 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request)
     {
         if (Auth::guard('admin')->attempt(['email' => $request->email,'password' => $request->password],$request->remember)) {
-            session()->flash('success','successfully Login'); 
+            session()->flash('success','successfully Login');
             return redirect()->intended(RouteServiceProvider::ADMIN_HOME);
         }else{
 
@@ -48,9 +48,9 @@ class AuthenticatedSessionController extends Controller
     {
         Auth::guard('admin')->logout();
 
-        // $request->session()->invalidate();
+        $request->session()->invalidate();
 
-        // $request->session()->regenerateToken();
+        $request->session()->regenerateToken();
 
         return redirect('/admin/login');
     }
