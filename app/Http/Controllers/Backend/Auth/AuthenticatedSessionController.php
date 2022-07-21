@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthenticatedSessionController extends Controller
 {
+    public function __construct()
+    {
+
+
+    }
+
     /**
      * Display the login view.
      *
@@ -17,6 +23,9 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
     {
+        if(Auth::guard('admin')->check()=='true'){
+            return redirect('/admin');
+        }
         return view('backend.auth.login');
     }
 
@@ -33,7 +42,7 @@ class AuthenticatedSessionController extends Controller
             return redirect()->intended(RouteServiceProvider::ADMIN_HOME);
         }else{
 
-            session()->flash('success','successfully Login');
+            session()->flash('error','Incorrenct Email Or password');
             return back();
     }
     }
