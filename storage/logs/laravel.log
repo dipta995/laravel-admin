@@ -1,0 +1,16 @@
+[2022-09-12 18:13:24] local.ERROR: Cannot redeclare getData() (previously declared in C:\xampp\htdocs\laravel-quickstart\app\helpers.php:2) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getData() (previously declared in C:\\xampp\\htdocs\\laravel-quickstart\\app\\helpers.php:2) at C:\\xampp\\htdocs\\laravel-quickstart\\app\\helpers.php:2)
+[stacktrace]
+#0 {main}
+"} 
+[2022-09-12 18:14:22] local.ERROR: Cannot redeclare getData() (previously declared in C:\xampp\htdocs\laravel-quickstart\app\helpers.php:2) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getData() (previously declared in C:\\xampp\\htdocs\\laravel-quickstart\\app\\helpers.php:2) at C:\\xampp\\htdocs\\laravel-quickstart\\app\\helpers.php:2)
+[stacktrace]
+#0 {main}
+"} 
+[2022-09-12 18:15:22] local.ERROR: Cannot redeclare getData() (previously declared in C:\xampp\htdocs\laravel-quickstart\app\helpers.php:2) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getData() (previously declared in C:\\xampp\\htdocs\\laravel-quickstart\\app\\helpers.php:2) at C:\\xampp\\htdocs\\laravel-quickstart\\app\\helpers.php:2)
+[stacktrace]
+#0 {main}
+"} 
+[2022-09-12 18:16:22] local.ERROR: Cannot redeclare getData() (previously declared in C:\xampp\htdocs\laravel-quickstart\app\helpers.php:2) {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot redeclare getData() (previously declared in C:\\xampp\\htdocs\\laravel-quickstart\\app\\helpers.php:2) at C:\\xampp\\htdocs\\laravel-quickstart\\app\\helpers.php:2)
+[stacktrace]
+#0 {main}
+"} 

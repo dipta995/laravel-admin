@@ -57,7 +57,7 @@ class RolesController extends Controller
             'title' => "Booking",
             'sub_title' => ""
         ];
-        $permission_groups=User::getpermissionGroup();
+        $permission_groups=Admin::getpermissionGroups();
         $permissions = Permission::all();
         return view('backend.pages.roles.create',compact('permissions','permission_groups','pageHeader'));
     }
