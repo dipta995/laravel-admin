@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
+use App\Models\Test;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -16,6 +17,7 @@ class TestController extends Controller
     public $show_fields;
     public $insert_fields;
     public $update_fields;
+    public $except_column;
 
     public function __construct()
     {
@@ -30,17 +32,20 @@ class TestController extends Controller
             'index_button' => "admin.admins.index",
             'create_button' => "admin.admins.create"
         ];
+        $this->except_column= ['_token'];
+
+
         $this->show_fields =
             [
                 [
                     'view_name' => "Name",
-                    'column_name' => "name",
+                    'name' => "name",
                     'length' => "",
                     'is_image'=>true
                 ],
                 [
-                    'view_name' => "Name",
-                    'column_name' => "name",
+                    'view_name' => "Email",
+                    'name' => "email",
                     'length' => "",
                     'is_image'=>false
                 ],
@@ -61,20 +66,15 @@ class TestController extends Controller
                     'placeholder' => "Enter Email",
                     'id' => "",
                 ],
-
                 [
-                    'name' => "name",
-                    'type' => "text",
-                    'placeholder' => "Enter Name",
-                    'id' => "",
-                    'required' => "",
-                ],
-                [
-                    'name' => "email",
-                    'type' => "email",
+                    'name' => "phone",
+                    'type' => "number",
                     'placeholder' => "Enter Email",
                     'id' => "",
                 ],
+
+
+
             ];
         $this->update_fields =
             [
@@ -83,13 +83,24 @@ class TestController extends Controller
                     'type' => "text",
                     'placeholder' => "Enter Name",
                     'id' => "",
+                    'required' => "",
+                    'update'=>""
                 ],
                 [
                     'name' => "email",
                     'type' => "email",
                     'placeholder' => "Enter Email",
                     'id' => "",
+                    'update'=>""
                 ],
+                [
+                    'name' => "phone",
+                    'type' => "number",
+                    'placeholder' => "Enter Email",
+                    'id' => "",
+                    'update'=>""
+                ],
+
 
             ];
     }
@@ -106,8 +117,9 @@ class TestController extends Controller
 
         $pageHeader = $this->pageHeader;
         $show_fields = $this->show_fields;
-        $admins = Admin::all();
-        return view('backend.pages._create',compact('admins','pageHeader','show_fields'));
+        $view_data = Test::select('name','email')->get();
+        $route = 'admin.tests.edit';
+        return view('backend.pages._create',compact('view_data','pageHeader','show_fields','route'));
     }
 
     /**
@@ -122,7 +134,8 @@ class TestController extends Controller
 //        }
         $pageHeader = $this->pageHeader;
         $insert_fields = $this->insert_fields;
-        return view('backend.pages._create',compact('pageHeader','insert_fields'));
+        $route = route('admin.tests.store');
+        return view('backend.pages._create',compact('pageHeader','insert_fields','route'));
     }
 
     /**
@@ -133,21 +146,14 @@ class TestController extends Controller
      */
     public function store(Request $request)
     {
-        if (is_null($this->user) || !$this->user->can('admin.create')) {
-            abort(403,'Unauthorized Access');
-        }
-        $insert_fields = $this->insert_fields;
-        return redirect()->route('admin.admins.index');
-
-
-        // $user = Admin::create(['name' => $request->name]);
-        // $permissions = $request->permissions;
-        // if ($user) {
-        //     if (!empty($permissions)) {
-        //         $user->syncPermissions($permissions);
-        //     }
-        //     return back()->with('success','New Admin Created');
+        // if (is_null($this->user) || !$this->user->can('admin.create')) {
+        //     abort(403,'Unauthorized Access');
         // }
+        $request->validate([
+            'email' => 'required',
+            'phone' => 'required',
+        ]);
+         Test::insert($request->except($this->except_column));
     }
 
     /**
@@ -174,8 +180,10 @@ class TestController extends Controller
             abort(403,'Unauthorized Access');
         }
         $pageHeader = $this->pageHeader;
-        $update_fields = $this->update_fields;
-        return view('backend.pages.admins.edit',compact('pageHeader','update_fields'));
+        $insert_fields = $this->update_fields;
+        $data = Test::find($id);
+        $route = route("admin.tests.update",$data->id);
+        return view('backend.pages._create',compact('pageHeader','insert_fields','data','route'));
     }
 
     /**
@@ -187,11 +195,11 @@ class TestController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (is_null($this->user) || !$this->user->can('admin.edit')) {
-            abort(403,'Unauthorized Access');
-        }
-
-
+        // if (is_null($this->user) || !$this->user->can('admin.edit')) {
+        //     abort(403,'Unauthorized Access');
+        // }
+        $update = Test::findOrFail($id);
+        $update->update($request->all());
 
     }
 

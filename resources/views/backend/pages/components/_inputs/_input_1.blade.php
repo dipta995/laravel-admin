@@ -1,6 +1,6 @@
 
 <div class="form-group">
     <label for="basicInput">{{ $input['name'] }}</label>
-    <input type="{{ $input['type'] }}" name="{{ $input['name'] }}" {{ $input['required'] ? "required" : "" }} {!! $input['min'] ? "min=".$input['min'] : "" !!}   {{ $input['max'] ? "max=".$input['max'] : "" }} class="form-control" id="{{ $input['id'] }}" placeholder="{{ $input['update'] ? $update_data->$input['name'] :$input['placeholder'] }}">
+    <input type="{{ $input['type'] }}" name="{{ $input['name'] }}" {{ isset($input['required']) ? "required" : "" }} {{ isset($input['min']) ? "min=".$input['min'] : "" }}   {{ isset($input['max']) ? "max=".$input['max'] : "" }} class="form-control" id="{{ $input['id'] }}" value="{{ isset($input['update']) ? $data->{$input['name']} :'' }}" placeholder="{{ isset($input['update']) ? '' : $input['placeholder'] }}">
 </div>
 
