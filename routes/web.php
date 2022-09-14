@@ -38,6 +38,7 @@ Route::get('/',[DashboardController::class,'index'])->name('home');
 Route::resource('roles', RolesController::class,['names'=>'admin.roles']);
 Route::resource('admins', AdminController::class,['names'=>'admin.admins']);
 Route::resource('users', UserController::class,['names'=>'admin.users']);
+Route::resource('tests', \App\Http\Controllers\Backend\TestController::class,['names'=>'admin.tests']);
 });
 Route::get('/dashboard', function () {
     return view('dashboard');

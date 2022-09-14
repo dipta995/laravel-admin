@@ -1,9 +1,10 @@
+
 @extends('backend.layouts.master')
 @section('title')
-    Create User
+    {{ $pageHeader['title'] }}
 @endsection
 @section('admin-content')
-@include('backend.layouts.partials.page-header', $pageHeader)
+    @include('backend.layouts.partials.page-header', $pageHeader)
 <div class="page-content">
         <section class="section">
             <div class="card">

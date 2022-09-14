@@ -12,13 +12,21 @@ use Spatie\Permission\Models\Role;
 class UserController extends Controller
 {
     public $user;
+    public $pageHeader;
 
     public function __construct()
     {
-        $this->middleware(function($request,$next){
+        $this->middleware(function ($request, $next) {
             $this->user = Auth::guard('admin')->user();
             return $next($request);
         });
+        $this->pageHeader = [
+            'title' => "Dashboard",
+            'sub_title' => "",
+            'plural_name' => "dashboards",
+            'index_button' => "admin.dashboards.index",
+            'create_button' => "admin.dashboards.index"
+        ];
     }
     /**
      * Display a listing of the resource.
@@ -30,10 +38,8 @@ class UserController extends Controller
         if (is_null($this->user) || !$this->user->can('admin.view')) {
             abort(403,'Unauthorized Access');
         }
-        $pageHeader=[
-            'title' => "Booking",
-            'sub_title' => ""
-        ];
+        $pageHeader = $this->pageHeader;
+
         $users = User::all();
         return view('backend.pages.users.index',compact('users','pageHeader'));
     }
@@ -48,10 +54,8 @@ class UserController extends Controller
         if (is_null($this->user) || !$this->user->can('admin.create')) {
             abort(403,'Unauthorized Access');
         }
-        $pageHeader=[
-            'title' => "Booking",
-            'sub_title' => ""
-        ];
+        $pageHeader = $this->pageHeader;
+
         $roles = Role::all();
         return view('backend.pages.users.create',compact('roles','pageHeader'));
     }
@@ -118,10 +122,8 @@ class UserController extends Controller
         if (is_null($this->user) || !$this->user->can('admin.edit')) {
             abort(403,'Unauthorized Access');
         }
-        $pageHeader=[
-            'title' => "Booking",
-            'sub_title' => ""
-        ];
+        $pageHeader = $this->pageHeader;
+
         $user = User::find($id);
         $roles = Role::all();
         return view('backend.pages.users.edit',compact('user','roles','pageHeader'));

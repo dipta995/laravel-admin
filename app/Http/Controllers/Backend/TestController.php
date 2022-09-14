@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
-class AdminController extends Controller
+class TestController extends Controller
 {
     public $user;
     public $pageHeader;
@@ -30,6 +30,68 @@ class AdminController extends Controller
             'index_button' => "admin.admins.index",
             'create_button' => "admin.admins.create"
         ];
+        $this->show_fields =
+            [
+                [
+                    'view_name' => "Name",
+                    'column_name' => "name",
+                    'length' => "",
+                    'is_image'=>true
+                ],
+                [
+                    'view_name' => "Name",
+                    'column_name' => "name",
+                    'length' => "",
+                    'is_image'=>false
+                ],
+
+            ];
+        $this->insert_fields =
+            [
+                [
+                    'name' => "name",
+                    'type' => "text",
+                    'placeholder' => "Enter Name",
+                    'id' => "",
+                    'required' => "",
+                ],
+                [
+                    'name' => "email",
+                    'type' => "email",
+                    'placeholder' => "Enter Email",
+                    'id' => "",
+                ],
+
+                [
+                    'name' => "name",
+                    'type' => "text",
+                    'placeholder' => "Enter Name",
+                    'id' => "",
+                    'required' => "",
+                ],
+                [
+                    'name' => "email",
+                    'type' => "email",
+                    'placeholder' => "Enter Email",
+                    'id' => "",
+                ],
+            ];
+        $this->update_fields =
+            [
+                [
+                    'name' => "name",
+                    'type' => "text",
+                    'placeholder' => "Enter Name",
+                    'id' => "",
+                ],
+                [
+                    'name' => "email",
+                    'type' => "email",
+                    'placeholder' => "Enter Email",
+                    'id' => "",
+                ],
+
+            ];
     }
     /**
      * Display a listing of the resource.
@@ -43,9 +105,9 @@ class AdminController extends Controller
         }
 
         $pageHeader = $this->pageHeader;
-
+        $show_fields = $this->show_fields;
         $admins = Admin::all();
-        return view('backend.pages.admins.index',compact('admins','pageHeader'));
+        return view('backend.pages._create',compact('admins','pageHeader','show_fields'));
     }
 
     /**
@@ -55,12 +117,12 @@ class AdminController extends Controller
      */
     public function create()
     {
-        if (is_null($this->user) || !$this->user->can('admin.create')) {
-            abort(403,'Unauthorized Access');
-        }
+//        if (is_null($this->user) || !$this->user->can('admin.create')) {
+//            abort(403,'Unauthorized Access');
+//        }
         $pageHeader = $this->pageHeader;
-        $roles = Role::all();
-        return view('backend.pages.admins.create',compact('roles','pageHeader'));
+        $insert_fields = $this->insert_fields;
+        return view('backend.pages._create',compact('pageHeader','insert_fields'));
     }
 
     /**
@@ -74,24 +136,7 @@ class AdminController extends Controller
         if (is_null($this->user) || !$this->user->can('admin.create')) {
             abort(403,'Unauthorized Access');
         }
-
-        $request->validate([
-            'name'=> 'required|max:50',
-            'email'=> 'required|unique:admins',
-            'password'=> 'required|min:8|confirmed',
-        ],[
-            'name.required' => 'Please Insert New Admin Name'
-        ]);
-        $user = new Admin();
-        $user->name = $request->name;
-        $user->username = $request->username;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->save();
-        if ($request->roles) {
-            $user->assignRole($request->roles);
-        }
-        session()->flash('success','Admin has Been created');
+        $insert_fields = $this->insert_fields;
         return redirect()->route('admin.admins.index');
 
 
@@ -129,9 +174,8 @@ class AdminController extends Controller
             abort(403,'Unauthorized Access');
         }
         $pageHeader = $this->pageHeader;
-        $admin = Admin::find($id);
-        $roles = Role::all();
-        return view('backend.pages.admins.edit',compact('admin','roles','pageHeader'));
+        $update_fields = $this->update_fields;
+        return view('backend.pages.admins.edit',compact('pageHeader','update_fields'));
     }
 
     /**
@@ -147,27 +191,7 @@ class AdminController extends Controller
             abort(403,'Unauthorized Access');
         }
 
-        $user = Admin::find($id);
-        $request->validate([
-            'name'=> 'required|max:50',
-            'email'=> 'required|email|unique:admins,email,'.$id,
-            'password'=> 'nullable|min:8|confirmed',
-        ],[
-            'name.required' => 'Please Insert New Admin Name'
-        ]);
-        // $user = new Admin();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        if ($request->password !=null) {
-            $user->password = Hash::make($request->password);
-        }
-        $user->save();
-        $user->roles()->detach();
-        if ($request->roles) {
-            $user->assignRole($request->roles);
-        }
-        session()->flash('success','Admin has Been Updated');
-        return back();
+
 
     }
 
@@ -182,12 +206,6 @@ class AdminController extends Controller
         if (is_null($this->user) || !$this->user->can('admin.delete')) {
             abort(403,'Unauthorized Access');
         }
-         $user = Admin::findById($id);
-         if (!is_null($user)) {
-             $user->delete();
-         }
-         session()->flash('success','user has been deleted');
-         return back();
 
     }
 }

@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('/backend/assets/css/bootstrap.css') }}">
-    <link rel="stylesheet" href="{{ asset('/backend/assets/vendors/bootstrap-icons/bootstrap-icons.css') }}">
-    <link rel="stylesheet" href="{{ asset('/backend/assets/css/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('/backend/assets/css/pages/auth.css') }}">
+    <link rel="stylesheet" href="<?php echo e(asset('/backend/assets/css/bootstrap.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('/backend/assets/vendors/bootstrap-icons/bootstrap-icons.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('/backend/assets/css/app.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('/backend/assets/css/pages/auth.css')); ?>">
 </head>
 
 <body>
@@ -19,13 +19,13 @@
     <div class="col-lg-5 col-12">
         <div id="auth-left">
             <div class="auth-logo">
-                <a href="index.html"><img src="{{ asset('/backend/assets/images/logo/logo.png') }}" alt="Logo"></a>
+                <a href="index.html"><img src="<?php echo e(asset('/backend/assets/images/logo/logo.png')); ?>" alt="Logo"></a>
             </div>
             <h1 class="auth-title">Log in.</h1>
             <p class="auth-subtitle mb-5">.</p>
 
-            <form method="POST" action="{{ route('admin.login.submit') }}">
-                @csrf
+            <form method="POST" action="<?php echo e(route('admin.login.submit')); ?>">
+                <?php echo csrf_field(); ?>
 
                 <div class="form-group position-relative has-icon-left mb-4">
                     <input type="email" name="email" class="form-control form-control-xl" placeholder="Enter email">
@@ -48,9 +48,9 @@
                 <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5" type="submit">Log in</button>
             </form>
             <div class="text-center mt-5 text-lg fs-4">
-    {{--                <p class="text-gray-600">Don't have an account? <a href="auth-register.html" class="font-bold">Sign--}}
-    {{--                        up</a>.</p>--}}
-                <p><a class="font-bold" href="{{ route('admin.password') }}">Forgot password?</a>.</p>
+    
+    
+                <p><a class="font-bold" href="<?php echo e(route('admin.password')); ?>">Forgot password?</a>.</p>
             </div>
         </div>
     </div>
@@ -65,3 +65,4 @@
 </body>
 
 </html>
+<?php /**PATH C:\xampp\htdocs\admin_laravel_nine\resources\views/backend/auth/login.blade.php ENDPATH**/ ?>

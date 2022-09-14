@@ -1,19 +1,19 @@
-<script src="{{ ENV('ASSET_LINK').'/vendors/perfect-scrollbar/perfect-scrollbar.min.js' }}"></script>
-<script src="{{ ENV('ASSET_LINK').'/js/bootstrap.bundle.min.js' }}"></script>
+<script src="{{ asset('/backend/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
+<script src="{{ asset('/backend/assets/js/bootstrap.bundle.min.js') }}"></script>
 
-<script src="{{ ENV('ASSET_LINK').'/vendors/apexcharts/apexcharts.js' }}"></script>
-<script src="{{ ENV('ASSET_LINK').'/js/pages/dashboard.js' }}"></script>
+<script src="{{ asset('/backend/assets/vendors/apexcharts/apexcharts.js') }}"></script>
+<script src="{{ asset('/backend/assets/js/pages/dashboard.js') }}"></script>
 
 
-<script src="{{ ENV('ASSET_LINK').'/vendors/jquery/jquery.min.js' }}"></script>
-<script src="{{ ENV('ASSET_LINK').'/vendors/jquery-datatables/jquery.dataTables.min.js' }}"></script>
+<script src="{{ asset('/backend/assets/vendors/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('/backend/assets/vendors/jquery-datatables/jquery.dataTables.min.js') }}"></script>
 
-<script src="{{ ENV('ASSET_LINK').'/vendors/jquery-datatables/custom.jquery.dataTables.bootstrap5.min.js' }}"></script>
-<script src="{{ ENV('ASSET_LINK').'/vendors/fontawesome/all.min.js' }}"></script>
+<script src="{{ asset('/backend/assets/vendors/jquery-datatables/custom.jquery.dataTables.bootstrap5.min.js') }}"></script>
+<script src="{{ asset('/backend/assets/vendors/fontawesome/all.min.js') }}"></script>
 
-<script src="{{ ENV('ASSET_LINK').'/vendors/choices.js/choices.min.js' }}"></script>
-<script src="{{ ENV('ASSET_LINK').'/js/pages/form-element-select.js' }}"></script>
-<script src="{{ ENV('ASSET_LINK').'/js/mazer.js' }}"></script>
+<script src="{{ asset('/backend/assets/vendors/choices.js/choices.min.js') }}"></script>
+<script src="{{ asset('/backend/assets/js/pages/form-element-select.js') }}"></script>
+<script src="{{ asset('/backend/assets/js/mazer.js') }}"></script>
 <script>
     // Jquery Datatable
     $(document).ready(function() {

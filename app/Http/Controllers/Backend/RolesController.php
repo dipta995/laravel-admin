@@ -12,13 +12,21 @@ use Spatie\Permission\Models\Permission;
 class RolesController extends Controller
 {
     public $user;
+    public $pageHeader;
 
     public function __construct()
     {
-        $this->middleware(function($request,$next){
+        $this->middleware(function ($request, $next) {
             $this->user = Auth::guard('admin')->user();
             return $next($request);
         });
+        $this->pageHeader = [
+            'title' => "Dashboard",
+            'sub_title' => "",
+            'plural_name' => "dashboards",
+            'index_button' => "admin.roles.index",
+            'create_button' => "admin.roles.create"
+        ];
     }
 
 
@@ -35,10 +43,8 @@ class RolesController extends Controller
         if (is_null($this->user) || !$this->user->can('role.view')) {
             abort(403,'Unauthorized Access');
         }
-        $pageHeader=[
-            'title' => "Booking",
-            'sub_title' => ""
-        ];
+        $pageHeader = $this->pageHeader;
+
         $roles = Role::all();
         return view('backend.pages.roles.index',compact('roles','pageHeader'));
     }
@@ -53,10 +59,8 @@ class RolesController extends Controller
         if (is_null($this->user) || !$this->user->can('role.create')) {
             abort(403,'Unauthorized Access');
         }
-        $pageHeader=[
-            'title' => "Booking",
-            'sub_title' => ""
-        ];
+        $pageHeader = $this->pageHeader;
+
         $permission_groups=Admin::getpermissionGroups();
         $permissions = Permission::all();
         return view('backend.pages.roles.create',compact('permissions','permission_groups','pageHeader'));
@@ -110,10 +114,8 @@ class RolesController extends Controller
         if (is_null($this->user) || !$this->user->can('role.edit')) {
             abort(403,'Unauthorized Access');
         }
-        $pageHeader=[
-            'title' => "Booking",
-            'sub_title' => ""
-        ];
+        $pageHeader = $this->pageHeader;
+
         $role = Role::findById($id,'admin');
         $permission_groups=Admin::getpermissionGroups();
         $permissions = Permission::all();
