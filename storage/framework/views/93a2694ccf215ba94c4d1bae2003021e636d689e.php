@@ -1,9 +1,9 @@
-@extends('backend.layouts.master')
-@section('title')
-    {{ $pageHeader['title'] }}
-@endsection
-@section('admin-content')
-    @include('backend.layouts.partials.page-header', $pageHeader)
+<?php $__env->startSection('title'); ?>
+    <?php echo e($pageHeader['title']); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('admin-content'); ?>
+    <?php echo $__env->make('backend.layouts.partials.page-header', $pageHeader, \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <div class="page-content">
         <section class="section">
             <div class="card">
@@ -11,8 +11,8 @@
                     <h4 class="card-title">Basic Inputs</h4>
                 </div>
 
-                {{-- View --}}
-                @if (isset($view_data))
+                
+                <?php if(isset($view_data)): ?>
                     <div class="card-body">
 
 
@@ -30,11 +30,11 @@
                                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg"
                                              role="document">
                                             <div class="modal-content">
-{{--                                                <form id="form" method="POST">--}}
-{{--                                                    @csrf--}}
-{{--                                                    @if (isset($update_fields))--}}
-{{--                                                        @method('PUT')--}}
-{{--                                                    @endif--}}
+
+
+
+
+
                                                     <div class="modal-header">
                                                         <h4 class="modal-title" id="myModalLabel17">Large Modal</h4>
                                                         <button type="button" class="close" data-bs-dismiss="modal"
@@ -44,9 +44,9 @@
                                                     </div>
 
                                                     <div class="modal-body">
-                                                        @foreach($insert_fields as $input)
-                                                            @include("backend.pages.components._inputs._input_1",$input)
-                                                        @endforeach
+                                                        <?php $__currentLoopData = $insert_fields; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $input): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                            <?php echo $__env->make("backend.pages.components._inputs._input_1",$input, \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-light-secondary"
@@ -54,14 +54,14 @@
                                                             <i class="bx bx-x d-block d-sm-none"></i>
                                                             <span class="d-none d-sm-block">Close</span>
                                                         </button>
-{{--                                                        <button type="submit" id="form_button" class="btn btn-primary ml-1"--}}
-{{--                                                                >--}}
-{{--                                                            <i class="bx bx-check d-block d-sm-none"></i>--}}
-{{--                                                            <span class="d-none d-sm-block">Accept</span>--}}
-{{--                                                        </button>--}}
+
+
+
+
+
                                                         <button type="submit" class="btn btn-primary add_student update_student">Save</button>
                                                     </div>
-{{--                                                </form>--}}
+
                                             </div>
                                         </div>
                                     </div>
@@ -74,9 +74,9 @@
                             <thead>
                             <tr>
                                 <th>Sl</th>
-                                @foreach($show_fields as $column)
-                                    <td>{{ $column['view_name'] }}</td>
-                                @endforeach
+                                <?php $__currentLoopData = $show_fields; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $column): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <td><?php echo e($column['view_name']); ?></td>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 <th>Action</th>
 
 
@@ -84,58 +84,57 @@
                             </thead>
                             <tbody>
 
-                            @foreach ($view_data as $value)
+                            <?php $__currentLoopData = $view_data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td>{{ $loop->index+1 }}</td>
-                                    @foreach($show_fields as $column)
-                                        <td>{{ $value->{$column['name']} }}</td>
-                                    @endforeach
+                                    <td><?php echo e($loop->index+1); ?></td>
+                                    <?php $__currentLoopData = $show_fields; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $column): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <td><?php echo e($value->{$column['name']}); ?></td>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <td>
-                                        {{-- @if ( Auth::guard('admin')->user()->can('role.edit')) --}}
-                                        <button id="editbtn" value="{{ $value->id }}" class="badge bg-info" href="#">Edit</button>
-                                        {{-- @endif
-                                            @if ( Auth::guard('admin')->user()->can('role.delete')) --}}
+                                        
+                                        <button id="editbtn" value="<?php echo e($value->id); ?>" class="badge bg-info" href="#">Edit</button>
+                                        
                                         <button class="badge bg-danger" href="">Delete</button>
-                                        {{-- @endif --}}
+                                        
                                     </td>
 
                                 </tr>
 
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </tbody>
                         </table>
                     </div>
-                @endif
-                {{-- View --}}
-
-
-
-{{--                @if (isset($update_fields))--}}
-{{--                    <div class="card-body">--}}
-{{--                        <div class="row">--}}
-{{--                            <div class="col-md-12">--}}
-{{--                                <form action="{{ $route }}" method="POST">--}}
-{{--                                    @csrf--}}
-{{--                                    @if (isset($data))--}}
-{{--                                        @method('PUT')--}}
-{{--                                    @endif--}}
+                <?php endif; ?>
+                
 
 
 
 
 
-{{--                                    @foreach($update_fields as $input)--}}
-{{--                                        @include("backend.pages.components._inputs._input_1",$input)--}}
-{{--                                    @endforeach--}}
 
-{{--                                    <button type="submit" class="btn btn-outline-success">With Buttons</button>--}}
-{{--                                </form>--}}
 
-{{--                            </div>--}}
 
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                @endif--}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -157,13 +156,13 @@
                 }
             });
                 var data = {
-                    @foreach($insert_fields as $input)
-                    '{{ $input['name'] }}': $('#{{ $input['name'] }}').val(),
-                    @endforeach
+                    <?php $__currentLoopData = $insert_fields; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $input): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    '<?php echo e($input['name']); ?>': $('#<?php echo e($input['name']); ?>').val(),
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 }
             $.ajax({
                 data: data,
-                url: "{{ $route_create }}",
+                url: "<?php echo e($route_create); ?>",
                 type: "POST",
                 dataType: 'json',
                 success: function (response) {
@@ -193,9 +192,9 @@
                         if (response.status == 404) {
                             $('#large').modal('hide');
                         } else {
-                            @foreach($insert_fields as $input)
-                            $('#{{ $input['name'] }}').val(response.student.{{ $input['name'] }});
-                            @endforeach
+                            <?php $__currentLoopData = $insert_fields; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $input): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            $('#<?php echo e($input['name']); ?>').val(response.student.<?php echo e($input['name']); ?>);
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             $('#id').val(id);
                         }
                     }
@@ -260,4 +259,6 @@
 
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('backend.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\admin_laravel_nine\resources\views/backend/pages/_create.blade.php ENDPATH**/ ?>

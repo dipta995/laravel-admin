@@ -57,20 +57,17 @@ class TestController extends Controller
                     'name' => "name",
                     'type' => "text",
                     'placeholder' => "Enter Name",
-                    'id' => "",
                     'required' => "",
                 ],
                 [
                     'name' => "email",
                     'type' => "email",
                     'placeholder' => "Enter Email",
-                    'id' => "",
                 ],
                 [
                     'name' => "phone",
                     'type' => "number",
                     'placeholder' => "Enter Email",
-                    'id' => "",
                 ],
 
 
@@ -86,20 +83,7 @@ class TestController extends Controller
                     'required' => "",
                     'update'=>""
                 ],
-                [
-                    'name' => "email",
-                    'type' => "email",
-                    'placeholder' => "Enter Email",
-                    'id' => "",
-                    'update'=>""
-                ],
-                [
-                    'name' => "phone",
-                    'type' => "number",
-                    'placeholder' => "Enter Email",
-                    'id' => "",
-                    'update'=>""
-                ],
+
 
 
             ];
@@ -117,9 +101,11 @@ class TestController extends Controller
 
         $pageHeader = $this->pageHeader;
         $show_fields = $this->show_fields;
-        $view_data = Test::select('name','email')->get();
+        $insert_fields = $this->insert_fields;
+        $view_data = Test::select('id','name','email')->get();
         $route = 'admin.tests.edit';
-        return view('backend.pages._create',compact('view_data','pageHeader','show_fields','route'));
+        $route_create = route('admin.tests.store');
+        return view('backend.pages._create',compact('view_data','pageHeader','show_fields','insert_fields','route','route_create'));
     }
 
     /**
@@ -150,10 +136,24 @@ class TestController extends Controller
         //     abort(403,'Unauthorized Access');
         // }
         $request->validate([
+            'name' => 'required',
             'email' => 'required',
             'phone' => 'required',
         ]);
-         Test::insert($request->except($this->except_column));
+         $send = Test::insert($request->except($this->except_column));
+//         return back();
+         if ($send){
+             return response()->json([
+                 'status'=>200,
+                 'message'=>'Successfull.'
+             ]);
+         }else{
+             return response()->json([
+                 'status'=>400,
+                 'errors'=>"error"
+             ]);
+         }
+
     }
 
     /**
@@ -180,10 +180,22 @@ class TestController extends Controller
             abort(403,'Unauthorized Access');
         }
         $pageHeader = $this->pageHeader;
-        $insert_fields = $this->update_fields;
+        $update_fields = $this->update_fields;
+        $insert_fields = $this->insert_fields;
         $data = Test::find($id);
         $route = route("admin.tests.update",$data->id);
-        return view('backend.pages._create',compact('pageHeader','insert_fields','data','route'));
+        if ($data){
+            return response()->json([
+                'status'=>200,
+                'student'=>$data
+            ]);
+        }else{
+            return response()->json([
+                'status'=>404,
+                'message'=>"error"
+            ]);
+        }
+        return view('backend.pages._create',compact('pageHeader','insert_fields','update_fields','data','route'));
     }
 
     /**

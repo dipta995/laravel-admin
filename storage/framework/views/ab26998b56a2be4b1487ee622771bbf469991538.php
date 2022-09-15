@@ -431,4 +431,4 @@
         <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
     </div>
 </div>
-<?php /**PATH C:\xampp\htdocs\laravel-quickstart\resources\views/backend/layouts/partials/sidebar.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\xampp\htdocs\admin_laravel_nine\resources\views/backend/layouts/partials/sidebar.blade.php ENDPATH**/ ?>

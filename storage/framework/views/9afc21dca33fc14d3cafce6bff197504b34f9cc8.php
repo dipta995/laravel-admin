@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $__env->yieldContent('title','Laravel Role Admin'); ?></title>
 
@@ -45,4 +46,4 @@
 </body>
 
 </html>
-<?php /**PATH C:\xampp\htdocs\laravel-quickstart\resources\views/backend/layouts/master.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\xampp\htdocs\admin_laravel_nine\resources\views/backend/layouts/master.blade.php ENDPATH**/ ?>

@@ -32,4 +32,4 @@
             });
 </script>
 
-<?php /**PATH C:\xampp\htdocs\laravel-quickstart\resources\views/backend/layouts/partials/script.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\xampp\htdocs\admin_laravel_nine\resources\views/backend/layouts/partials/script.blade.php ENDPATH**/ ?>

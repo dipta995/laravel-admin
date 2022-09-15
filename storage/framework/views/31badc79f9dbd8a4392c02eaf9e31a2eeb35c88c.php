@@ -19,4 +19,4 @@
         </ul>
     </div>
 <?php endif; ?>
-<?php /**PATH C:\xampp\htdocs\laravel-quickstart\resources\views/backend/layouts/partials/message.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\xampp\htdocs\admin_laravel_nine\resources\views/backend/layouts/partials/message.blade.php ENDPATH**/ ?>
