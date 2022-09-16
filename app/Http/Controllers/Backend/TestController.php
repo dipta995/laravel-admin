@@ -73,13 +73,35 @@ class TestController extends Controller
 
 
             ];
-        $this->update_fields =
+            $this->update_fields =
             [
+                [
+                    'name' => "id",
+                    'type' => "number",
+                    'placeholder' => "",
+                    'required' => "",
+                    'update'=>""
+                ],
                 [
                     'name' => "name",
                     'type' => "text",
                     'placeholder' => "Enter Name",
-                    'id' => "",
+                    'required' => "",
+                    'update'=>""
+                ],
+
+                [
+                    'name' => "email",
+                    'type' => "email",
+                    'placeholder' => "Enter Name",
+                    'required' => "",
+                    'update'=>""
+                ],
+
+                [
+                    'name' => "phone",
+                    'type' => "text",
+                    'placeholder' => "Enter Name",
                     'required' => "",
                     'update'=>""
                 ],
@@ -102,10 +124,12 @@ class TestController extends Controller
         $pageHeader = $this->pageHeader;
         $show_fields = $this->show_fields;
         $insert_fields = $this->insert_fields;
+        $update_fields = $this->update_fields;
+
         $view_data = Test::select('id','name','email')->get();
         $route = 'admin.tests.edit';
         $route_create = route('admin.tests.store');
-        return view('backend.pages._create',compact('view_data','pageHeader','show_fields','insert_fields','route','route_create'));
+        return view('backend.pages._create',compact('view_data','pageHeader','show_fields','insert_fields','update_fields','route','route_create'));
     }
 
     /**
@@ -140,13 +164,17 @@ class TestController extends Controller
             'email' => 'required',
             'phone' => 'required',
         ]);
-         $send = Test::insert($request->except($this->except_column));
+        //  $send = Test::insert($request->except($this->except_column));
+        $send = new Test();
+        foreach ($this->insert_fields as $key => $value) {
+            $send->{$value['name']} = $request->{$value['name']};
+        }
+        $send->save();
+        $send->id;
+
 //         return back();
          if ($send){
-             return response()->json([
-                 'status'=>200,
-                 'message'=>'Successfull.'
-             ]);
+             return response()->json($send);
          }else{
              return response()->json([
                  'status'=>400,
@@ -195,7 +223,7 @@ class TestController extends Controller
                 'message'=>"error"
             ]);
         }
-        return view('backend.pages._create',compact('pageHeader','insert_fields','update_fields','data','route'));
+        return view('backend.pages._create',compact('pageHeader','update_fields','data','route'));
     }
 
     /**
@@ -210,8 +238,23 @@ class TestController extends Controller
         // if (is_null($this->user) || !$this->user->can('admin.edit')) {
         //     abort(403,'Unauthorized Access');
         // }
-        $update = Test::findOrFail($id);
-        $update->update($request->all());
+
+        $send = Test::findOrFail($id);
+        foreach ($this->update_fields as $key => $value) {
+            $send->{$value['name']} = $request->{$value['name']};
+        }
+        $send->save();
+        if ($send){
+            return response()->json($send);
+        }else{
+            return response()->json([
+                'status'=>400,
+                'errors'=>"error"
+            ]);
+        }
+
+
+        return back();
 
     }
 
@@ -226,7 +269,12 @@ class TestController extends Controller
         if (is_null($this->user) || !$this->user->can('admin.delete')) {
             abort(403,'Unauthorized Access');
         }
-
+        $data = Test::find($id);
+        $data->delete();
+        return response()->json([
+            'status'=>200,
+            'message'=>'Successfull.' 
+        ]);
     }
 }
 

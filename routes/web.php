@@ -39,6 +39,7 @@ Route::resource('roles', RolesController::class,['names'=>'admin.roles']);
 Route::resource('admins', AdminController::class,['names'=>'admin.admins']);
 Route::resource('users', UserController::class,['names'=>'admin.users']);
 Route::resource('tests', \App\Http\Controllers\Backend\TestController::class,['names'=>'admin.tests']);
+Route::post('/test/update/{id}',[\App\Http\Controllers\Backend\TestController::class,'update'])->name('updatetest');
 });
 Route::get('/dashboard', function () {
     return view('dashboard');

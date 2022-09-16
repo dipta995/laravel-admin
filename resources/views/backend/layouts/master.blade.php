@@ -43,6 +43,9 @@
     </div>
     </div>
    @include('backend.layouts.partials.script')
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+{{-- @include('backend.layouts.partials.message') --}}
+@include('sweetalert::alert')
 </body>
 
 </html>

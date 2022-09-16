@@ -186,6 +186,8 @@ return [
          * Package Service Providers...
          */
         Spatie\Permission\PermissionServiceProvider::class,
+        RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+
 
         /*
          * Application Service Providers...
@@ -211,6 +213,8 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
+
     ])->toArray(),
 
 ];
