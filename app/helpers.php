@@ -6,3 +6,11 @@ function getData($model)
         return app($model)->all();
 
     }
+
+function imageUpload($file)
+{
+
+    return  time() . '.' . $file->extension();
+
+
+}

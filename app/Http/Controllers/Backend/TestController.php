@@ -75,7 +75,7 @@ class TestController extends Controller
                 ],
                 [
                     'name' => "Image",
-                    'type' => "text",
+                    'type' => "file",
                     'field'=>"input",
                     'placeholder' => "Enter Email",
                 ],
@@ -191,7 +191,15 @@ class TestController extends Controller
         //  $send = Test::insert($request->except($this->except_column));
         $send = new Test();
         foreach ($this->insert_fields as $key => $value) {
-            $send->{$value['name']} = $request->{$value['name']};
+            if ($value['type']=='file') {
+                $file = $request->file($value['type']);
+                $file_name = time() . '.' . $file->extension();
+                $send->{$value['name']}= $file_name;
+                $file->move(public_path('images/'), $file_name);
+            }else{
+
+                $send->{$value['name']} = $request->{$value['name']};
+            }
         }
         $send->save();
         $send->id;

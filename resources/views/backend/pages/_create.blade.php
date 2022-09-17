@@ -166,6 +166,7 @@
                     data: data,
                     url: "{{ $route_create }}",
                     type: "POST",
+                    contentType: 'multipart/form-data',
                     dataType: 'json',
                     success: function(response) {
                         console.log(response);
@@ -233,6 +234,7 @@ getid.prepend('<tr id="table-data'+response.id+'"><td>'+ response.id +'</td>@for
                     data: data,
                     url: "http://127.0.0.1:8000/admin/test/update/" + id,
                     type: "POST",
+                    headers: {'Content-Type': 'multipart/form-data' },
                     dataType: 'json',
                     success: function(response) {
                         // console.log(response);

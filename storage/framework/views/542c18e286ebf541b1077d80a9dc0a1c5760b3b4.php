@@ -147,11 +147,6 @@
             // Show data
 
 
-
-
-
-
-
             //Insert Data
             $(document).on('click', '.add_student', function(e) {
                 e.preventDefault();
@@ -170,6 +165,7 @@
                     data: data,
                     url: "<?php echo e($route_create); ?>",
                     type: "POST",
+                    contentType: 'multipart/form-data',
                     dataType: 'json',
                     success: function(response) {
                         console.log(response);
@@ -237,6 +233,7 @@ getid.prepend('<tr id="table-data'+response.id+'"><td>'+ response.id +'</td><?ph
                     data: data,
                     url: "http://127.0.0.1:8000/admin/test/update/" + id,
                     type: "POST",
+                    headers: {'Content-Type': 'multipart/form-data' },
                     dataType: 'json',
                     success: function(response) {
                         // console.log(response);
