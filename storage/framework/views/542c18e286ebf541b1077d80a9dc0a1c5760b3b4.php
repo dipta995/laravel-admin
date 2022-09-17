@@ -227,8 +227,9 @@ getid.prepend('<tr id="table-data'+response.id+'"><td>'+ response.id +'</td><?ph
                     }
                 });
                 var id = $('.id').val();
+
                 var data = {
-                    <?php $__currentLoopData = $insert_fields; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $input): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php $__currentLoopData = $update_fields; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $input): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         '<?php echo e($input['name']); ?>': $('.<?php echo e($input['name']); ?>').val(),
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 }

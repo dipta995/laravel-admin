@@ -56,17 +56,27 @@ class TestController extends Controller
                 [
                     'name' => "name",
                     'type' => "text",
-                    'placeholder' => "Enter Name",
+                    'field'=>"select",
+                    'modelData'=>'\Admin',
+                    'view_index'=>"name",
                     'required' => "",
                 ],
                 [
                     'name' => "email",
                     'type' => "email",
+                    'field'=>"input",
                     'placeholder' => "Enter Email",
                 ],
                 [
                     'name' => "phone",
                     'type' => "number",
+                    'field'=>"input",
+                    'placeholder' => "Enter Email",
+                ],
+                [
+                    'name' => "Image",
+                    'type' => "text",
+                    'field'=>"input",
                     'placeholder' => "Enter Email",
                 ],
 
@@ -75,9 +85,11 @@ class TestController extends Controller
             ];
             $this->update_fields =
             [
+
                 [
                     'name' => "id",
-                    'type' => "number",
+                    'type' => "hidden",
+                    'field'=>"input",
                     'placeholder' => "",
                     'required' => "",
                     'update'=>""
@@ -85,14 +97,17 @@ class TestController extends Controller
                 [
                     'name' => "name",
                     'type' => "text",
-                    'placeholder' => "Enter Name",
-                    'required' => "",
+                    'field'=>"select",
+                    'modelData'=>'\Admin',
+                    'view_index'=>"name",
                     'update'=>""
                 ],
+
 
                 [
                     'name' => "email",
                     'type' => "email",
+                    'field'=>"input",
                     'placeholder' => "Enter Name",
                     'required' => "",
                     'update'=>""
@@ -101,6 +116,15 @@ class TestController extends Controller
                 [
                     'name' => "phone",
                     'type' => "text",
+                    'field'=>"input",
+                    'placeholder' => "Enter Name",
+                    'required' => "",
+                    'update'=>""
+                ],
+                [
+                    'name' => "image",
+                    'type' => "text",
+                    'field'=>"input",
                     'placeholder' => "Enter Name",
                     'required' => "",
                     'update'=>""
@@ -273,7 +297,7 @@ class TestController extends Controller
         $data->delete();
         return response()->json([
             'status'=>200,
-            'message'=>'Successfull.' 
+            'message'=>'Successfull.'
         ]);
     }
 }

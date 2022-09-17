@@ -148,11 +148,6 @@
             // Show data
 
 
-
-
-
-
-
             //Insert Data
             $(document).on('click', '.add_student', function(e) {
                 e.preventDefault();
@@ -228,8 +223,9 @@ getid.prepend('<tr id="table-data'+response.id+'"><td>'+ response.id +'</td>@for
                     }
                 });
                 var id = $('.id').val();
+
                 var data = {
-                    @foreach ($insert_fields as $input)
+                    @foreach ($update_fields as $input)
                         '{{ $input['name'] }}': $('.{{ $input['name'] }}').val(),
                     @endforeach
                 }
