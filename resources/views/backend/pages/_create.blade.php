@@ -37,7 +37,7 @@
                                                         <i data-feather="x"></i>
                                                     </button>
                                                 </div>
-
+                                                <form  method="POST" id="data-insert" enctype="multipart/form-data">
                                                 <div class="modal-body">
                                                     @foreach ($insert_fields as $input)
                                                         @include('backend.pages.components._inputs._input_1',
@@ -54,7 +54,7 @@
                                                     </button>
                                                     <button type="submit" class="btn btn-primary add_student">Save</button>
                                                 </div>
-
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -71,7 +71,7 @@
                                                         <i data-feather="x"></i>
                                                     </button>
                                                 </div>
-
+                                                <form  method="POST" id="data-update" enctype="multipart/form-data">
                                                 <div class="modal-body">
 
                                                     @foreach ($update_fields as $input)
@@ -88,7 +88,7 @@
                                                     <button type="submit"
                                                         class="btn btn-primary update_student">Save</button>
                                                 </div>
-
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -149,27 +149,26 @@
 
 
             //Insert Data
-            $(document).on('click', '.add_student', function(e) {
+            $("#data-insert").submit(function(e) {
                 e.preventDefault();
+
+                const fd = new FormData(this);
                 $(this).text('Creating..');
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
-                var data = {
-                    @foreach ($insert_fields as $input)
-                        '{{ $input['name'] }}': $('#{{ $input['name'] }}').val(),
-                    @endforeach
-                }
+
                 $.ajax({
-                    data: data,
-                    url: "{{ $route_create }}",
-                    type: "POST",
-                    contentType: 'multipart/form-data',
+                    url: '{{ $route_create }}   ',
+                    method: 'post',
+                    data: fd,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
                     dataType: 'json',
                     success: function(response) {
-                        console.log(response);
                         if (response.status == 400) {
                             console.log(false)
                         } else {
@@ -215,7 +214,10 @@ getid.prepend('<tr id="table-data'+response.id+'"><td>'+ response.id +'</td>@for
 
 
             //Update Data
-            $(document).on('click', '.update_student', function(e) {
+                $("#data-update").submit(function(e) {
+                e.preventDefault();
+
+                const fd = new FormData(this);
                 e.preventDefault();
                 $(this).text('Updating..');
                 $.ajaxSetup({
@@ -224,17 +226,16 @@ getid.prepend('<tr id="table-data'+response.id+'"><td>'+ response.id +'</td>@for
                     }
                 });
                 var id = $('.id').val();
+                console.log(this)
 
-                var data = {
-                    @foreach ($update_fields as $input)
-                        '{{ $input['name'] }}': $('.{{ $input['name'] }}').val(),
-                    @endforeach
-                }
+
                 $.ajax({
-                    data: data,
                     url: "http://127.0.0.1:8000/admin/test/update/" + id,
-                    type: "POST",
-                    headers: {'Content-Type': 'multipart/form-data' },
+                    method: 'post',
+                    data: fd,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
                     dataType: 'json',
                     success: function(response) {
                         // console.log(response);

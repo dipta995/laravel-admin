@@ -74,7 +74,7 @@ class TestController extends Controller
                     'placeholder' => "Enter Email",
                 ],
                 [
-                    'name' => "Image",
+                    'name' => "image",
                     'type' => "file",
                     'field'=>"input",
                     'placeholder' => "Enter Email",
@@ -123,7 +123,7 @@ class TestController extends Controller
                 ],
                 [
                     'name' => "image",
-                    'type' => "text",
+                    'type' => "file",
                     'field'=>"input",
                     'placeholder' => "Enter Name",
                     'required' => "",
@@ -183,6 +183,7 @@ class TestController extends Controller
         // if (is_null($this->user) || !$this->user->can('admin.create')) {
         //     abort(403,'Unauthorized Access');
         // }
+
         $request->validate([
             'name' => 'required',
             'email' => 'required',
@@ -192,10 +193,11 @@ class TestController extends Controller
         $send = new Test();
         foreach ($this->insert_fields as $key => $value) {
             if ($value['type']=='file') {
-                $file = $request->file($value['type']);
-                $file_name = time() . '.' . $file->extension();
+                $file = $request->file($value['name']);
+                $file_name = time() . '.' . $file->getClientOriginalExtension();
                 $send->{$value['name']}= $file_name;
                 $file->move(public_path('images/'), $file_name);
+
             }else{
 
                 $send->{$value['name']} = $request->{$value['name']};
