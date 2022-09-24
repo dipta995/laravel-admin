@@ -54,26 +54,31 @@ class TestController extends Controller
         $this->insert_fields =
             [
                 [
+                    'title' => "name",
                     'name' => "name",
                     'type' => "text",
                     'field'=>"select",
                     'modelData'=>'\Admin',
                     'view_index'=>"name",
                     'required' => "",
+                    'multiple' => "multiple",
                 ],
                 [
+                    'title' => "email",
                     'name' => "email",
                     'type' => "email",
                     'field'=>"input",
                     'placeholder' => "Enter Email",
                 ],
                 [
+                    'title' => "phone",
                     'name' => "phone",
                     'type' => "number",
                     'field'=>"input",
                     'placeholder' => "Enter Email",
                 ],
                 [
+                    'title' => "image",
                     'name' => "image",
                     'type' => "file",
                     'field'=>"input",
@@ -87,6 +92,7 @@ class TestController extends Controller
             [
 
                 [
+                    'title' => "id",
                     'name' => "id",
                     'type' => "hidden",
                     'field'=>"input",
@@ -95,6 +101,7 @@ class TestController extends Controller
                     'update'=>""
                 ],
                 [
+                    'title' => "name",
                     'name' => "name",
                     'type' => "text",
                     'field'=>"select",
@@ -105,15 +112,16 @@ class TestController extends Controller
 
 
                 [
+                    'title' => "email",
                     'name' => "email",
                     'type' => "email",
                     'field'=>"input",
                     'placeholder' => "Enter Name",
-                    'required' => "",
                     'update'=>""
                 ],
 
                 [
+                    'title' => "phone",
                     'name' => "phone",
                     'type' => "text",
                     'field'=>"input",
@@ -122,6 +130,7 @@ class TestController extends Controller
                     'update'=>""
                 ],
                 [
+                    'title' => "image",
                     'name' => "image",
                     'type' => "file",
                     'field'=>"input",
@@ -186,7 +195,6 @@ class TestController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'email' => 'required',
             'phone' => 'required',
         ]);
         //  $send = Test::insert($request->except($this->except_column));
@@ -198,11 +206,16 @@ class TestController extends Controller
                 $send->{$value['name']}= $file_name;
                 $file->move(public_path('images/'), $file_name);
 
-            }else{
+            }elseif(isset($value['multiple'])) {
+
+                     $send->{$value['name']} = json_encode($request->{$value['name']});
+            }
+            else{
 
                 $send->{$value['name']} = $request->{$value['name']};
             }
         }
+        return $send;
         $send->save();
         $send->id;
 
@@ -267,15 +280,29 @@ class TestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$id)
     {
         // if (is_null($this->user) || !$this->user->can('admin.edit')) {
         //     abort(403,'Unauthorized Access');
         // }
 
         $send = Test::findOrFail($id);
-        foreach ($this->update_fields as $key => $value) {
-            $send->{$value['name']} = $request->{$value['name']};
+        foreach ($this->insert_fields as $key => $value) {
+
+            if ($value['type']=='file') {
+                $file = $request->file($value['name']);
+                $file_name = time() . '.' . $file->getClientOriginalExtension();
+                $send->{$value['name']}= $file_name;
+                $file->move(public_path('images/'), $file_name);
+
+            }elseif(isset($value['multiple'])) {
+
+                $send->{$value['name']} = json_encode($request->{$value['name']});
+            }
+            else{
+
+                $send->{$value['name']} = $request->{$value['name']};
+            }
         }
         $send->save();
         if ($send){

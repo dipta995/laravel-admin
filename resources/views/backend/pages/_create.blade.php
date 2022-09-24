@@ -29,7 +29,7 @@
                                         aria-labelledby="myModalLabel17" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg"
                                             role="document">
-                                            <div class="modal-content">
+                                            <div class="modal-content" style="overflow: auto;">
                                                 <div class="modal-header">
                                                     <h4 class="modal-title" id="myModalLabel17">Large Modal</h4>
                                                     <button type="button" class="close" data-bs-dismiss="modal"
@@ -195,7 +195,7 @@ getid.prepend('<tr id="table-data'+response.id+'"><td>'+ response.id +'</td>@for
                 $('#large1').modal('show');
                 $.ajax({
                     type: "GET",
-                    url: "http://127.0.0.1:8000/admin/tests/" + id + "/edit",
+                    url: "http://127.0.0.1:8000/admin/demos/" + id + "/edit",
                     success: function(response) {
                         if (response.status == 404) {
                             $('#large1').modal('hide');
@@ -216,21 +216,20 @@ getid.prepend('<tr id="table-data'+response.id+'"><td>'+ response.id +'</td>@for
             //Update Data
                 $("#data-update").submit(function(e) {
                 e.preventDefault();
-
                 const fd = new FormData(this);
                 e.preventDefault();
-                $(this).text('Updating..');
+                // $(this).text('Updating..');
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
-                var id = $('.id').val();
-                console.log(this)
+                    var id = $(this).closest("form").find('.id').val();
+                    console.log(id)
 
 
                 $.ajax({
-                    url: "http://127.0.0.1:8000/admin/test/update/" + id,
+                    url: "http://127.0.0.1:8000/admin/demo/update/"+id,
                     method: 'post',
                     data: fd,
                     cache: false,
@@ -246,7 +245,7 @@ getid.prepend('<tr id="table-data'+response.id+'"><td>'+ response.id +'</td>@for
                             var getid = $(".table tbody");
 getid.prepend('<tr id="table-data'+id+'"><td>'+ id +'</td>@foreach ($show_fields as $column)<td>'+ response.{{$column["name"]}} + '</td>@endforeach<td><button id="editbtn" value="'+ id +'" class="badge bg-info" >Edit</button><a class="badge bg-danger" href="#"  onclick="deleteData('+ id +')">Delete</a></td></tr>')
                             $('#large1').modal('hide');
-                            // $(':input').val('');
+                            $('input').val('');
 
                         }
                         $('.update_student').text('Save');
@@ -279,7 +278,7 @@ getid.prepend('<tr id="table-data'+id+'"><td>'+ id +'</td>@foreach ($show_fields
                         })
                 $.ajax({
                     type: "DELETE",
-                    url: "http://127.0.0.1:8000/admin/tests/" + id,
+                    url: "http://127.0.0.1:8000/admin/demos/" + id,
                     data: {
                         _token: $("input[name=_token]").val()
                     },

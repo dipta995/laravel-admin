@@ -29,7 +29,7 @@
                                         aria-labelledby="myModalLabel17" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg"
                                             role="document">
-                                            <div class="modal-content">
+                                            <div class="modal-content" style="overflow: auto;">
                                                 <div class="modal-header">
                                                     <h4 class="modal-title" id="myModalLabel17">Large Modal</h4>
                                                     <button type="button" class="close" data-bs-dismiss="modal"
@@ -37,7 +37,7 @@
                                                         <i data-feather="x"></i>
                                                     </button>
                                                 </div>
-
+                                                <form  method="POST" id="data-insert" enctype="multipart/form-data">
                                                 <div class="modal-body">
                                                     <?php $__currentLoopData = $insert_fields; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $input): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                         <?php echo $__env->make('backend.pages.components._inputs._input_1',
@@ -54,7 +54,7 @@
                                                     </button>
                                                     <button type="submit" class="btn btn-primary add_student">Save</button>
                                                 </div>
-
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -71,7 +71,7 @@
                                                         <i data-feather="x"></i>
                                                     </button>
                                                 </div>
-
+                                                <form  method="POST" id="data-update" enctype="multipart/form-data">
                                                 <div class="modal-body">
 
                                                     <?php $__currentLoopData = $update_fields; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $input): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -88,7 +88,7 @@
                                                     <button type="submit"
                                                         class="btn btn-primary update_student">Save</button>
                                                 </div>
-
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -148,27 +148,26 @@
 
 
             //Insert Data
-            $(document).on('click', '.add_student', function(e) {
+            $("#data-insert").submit(function(e) {
                 e.preventDefault();
+
+                const fd = new FormData(this);
                 $(this).text('Creating..');
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
-                var data = {
-                    <?php $__currentLoopData = $insert_fields; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $input): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        '<?php echo e($input['name']); ?>': $('#<?php echo e($input['name']); ?>').val(),
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                }
+
                 $.ajax({
-                    data: data,
-                    url: "<?php echo e($route_create); ?>",
-                    type: "POST",
-                    contentType: 'multipart/form-data',
+                    url: '<?php echo e($route_create); ?>   ',
+                    method: 'post',
+                    data: fd,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
                     dataType: 'json',
                     success: function(response) {
-                        console.log(response);
                         if (response.status == 400) {
                             console.log(false)
                         } else {
@@ -195,7 +194,7 @@ getid.prepend('<tr id="table-data'+response.id+'"><td>'+ response.id +'</td><?ph
                 $('#large1').modal('show');
                 $.ajax({
                     type: "GET",
-                    url: "http://127.0.0.1:8000/admin/tests/" + id + "/edit",
+                    url: "http://127.0.0.1:8000/admin/demos/" + id + "/edit",
                     success: function(response) {
                         if (response.status == 404) {
                             $('#large1').modal('hide');
@@ -214,26 +213,27 @@ getid.prepend('<tr id="table-data'+response.id+'"><td>'+ response.id +'</td><?ph
 
 
             //Update Data
-            $(document).on('click', '.update_student', function(e) {
+                $("#data-update").submit(function(e) {
                 e.preventDefault();
-                $(this).text('Updating..');
+                const fd = new FormData(this);
+                e.preventDefault();
+                // $(this).text('Updating..');
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
-                var id = $('.id').val();
+                    var id = $(this).closest("form").find('.id').val();
+                    console.log(id)
 
-                var data = {
-                    <?php $__currentLoopData = $update_fields; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $input): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        '<?php echo e($input['name']); ?>': $('.<?php echo e($input['name']); ?>').val(),
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                }
+
                 $.ajax({
-                    data: data,
-                    url: "http://127.0.0.1:8000/admin/test/update/" + id,
-                    type: "POST",
-                    headers: {'Content-Type': 'multipart/form-data' },
+                    url: "http://127.0.0.1:8000/admin/demo/update/"+id,
+                    method: 'post',
+                    data: fd,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
                     dataType: 'json',
                     success: function(response) {
                         // console.log(response);
@@ -244,7 +244,7 @@ getid.prepend('<tr id="table-data'+response.id+'"><td>'+ response.id +'</td><?ph
                             var getid = $(".table tbody");
 getid.prepend('<tr id="table-data'+id+'"><td>'+ id +'</td><?php $__currentLoopData = $show_fields; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $column): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><td>'+ response.<?php echo e($column["name"]); ?> + '</td><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><td><button id="editbtn" value="'+ id +'" class="badge bg-info" >Edit</button><a class="badge bg-danger" href="#"  onclick="deleteData('+ id +')">Delete</a></td></tr>')
                             $('#large1').modal('hide');
-                            // $(':input').val('');
+                            $('input').val('');
 
                         }
                         $('.update_student').text('Save');
@@ -277,7 +277,7 @@ getid.prepend('<tr id="table-data'+id+'"><td>'+ id +'</td><?php $__currentLoopDa
                         })
                 $.ajax({
                     type: "DELETE",
-                    url: "http://127.0.0.1:8000/admin/tests/" + id,
+                    url: "http://127.0.0.1:8000/admin/demos/" + id,
                     data: {
                         _token: $("input[name=_token]").val()
                     },

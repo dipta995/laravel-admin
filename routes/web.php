@@ -40,6 +40,8 @@ Route::resource('admins', AdminController::class,['names'=>'admin.admins']);
 Route::resource('users', UserController::class,['names'=>'admin.users']);
 Route::resource('tests', \App\Http\Controllers\Backend\TestController::class,['names'=>'admin.tests']);
 Route::post('/test/update/{id}',[\App\Http\Controllers\Backend\TestController::class,'update'])->name('updatetest');
+Route::resource('demos', \App\Http\Controllers\Backend\DemoController::class,['names'=>'admin.demos']);
+Route::post('/demo/update/{id}',[\App\Http\Controllers\Backend\DemoController::class,'update'])->name('updatedemo');
 });
 Route::get('/dashboard', function () {
     return view('dashboard');
