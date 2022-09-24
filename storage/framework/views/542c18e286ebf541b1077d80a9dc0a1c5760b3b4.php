@@ -71,7 +71,7 @@
                                                         <i data-feather="x"></i>
                                                     </button>
                                                 </div>
-                                                <form  method="POST" id="data-update" enctype="multipart/form-data">
+                                                <form style="overflow: auto;"  method="POST" id="data-update" enctype="multipart/form-data">
                                                 <div class="modal-body">
 
                                                     <?php $__currentLoopData = $update_fields; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $input): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -116,8 +116,24 @@
                                 <?php $__currentLoopData = $view_data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr id="table-data<?php echo e($value->id); ?>">
                                         <td><?php echo e($loop->index + 1); ?></td>
+
                                         <?php $__currentLoopData = $show_fields; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $column): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <td><?php echo e($value->{$column['name']}); ?></td>
+
+                                            <?php if($column['type']=='image'): ?>
+                                                <td><img style="width:50px;" src="/images/<?php echo e($value->{$column['name']}); ?>"></td>
+                                            <?php elseif($column['type']=='switch'): ?>
+                                                <td>
+                                                    <div class="form-check form-switch">
+                                                        <input
+
+                                                               <?php echo e($value->{$column['name']} == $column['active_status'] ? 'checked' : ''); ?>
+
+                                                               class="form-check-input" type="checkbox">
+                                                    </div>
+                                                </td>
+                                            <?php else: ?>
+                                                <td><?php echo e(isset($column['base_array']) ? $value->{$column['base_array']}->{$column['name']}  :  $value->{$column['name']}); ?></td>
+                                            <?php endif; ?>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         <td>
                                             

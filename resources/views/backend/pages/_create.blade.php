@@ -71,7 +71,7 @@
                                                         <i data-feather="x"></i>
                                                     </button>
                                                 </div>
-                                                <form  method="POST" id="data-update" enctype="multipart/form-data">
+                                                <form style="overflow: auto;"  method="POST" id="data-update" enctype="multipart/form-data">
                                                 <div class="modal-body">
 
                                                     @foreach ($update_fields as $input)
@@ -116,8 +116,23 @@
                                 @foreach ($view_data as $value)
                                     <tr id="table-data{{ $value->id }}">
                                         <td>{{ $loop->index + 1 }}</td>
+{{--                                        <td>{{ $value->admin->name }}</td>--}}
                                         @foreach ($show_fields as $column)
-                                            <td>{{ $value->{$column['name']} }}</td>
+
+                                            @if($column['type']=='image')
+                                                <td><img style="width:50px;" src="/images/{{ $value->{$column['name']} }}"></td>
+                                            @elseif($column['type']=='switch')
+                                                <td>
+                                                    <div class="form-check form-switch">
+                                                        <input
+{{--                                                            onclick="activeData({{ $value->id }},'rider')"--}}
+                                                               {{ $value->{$column['name']} == $column['active_status'] ? 'checked' : '' }}
+                                                               class="form-check-input" type="checkbox">
+                                                    </div>
+                                                </td>
+                                            @else
+                                                <td>{{ isset($column['base_array']) ? $value->{$column['base_array']}->{$column['name']}  :  $value->{$column['name']} }}</td>
+                                            @endif
                                         @endforeach
                                         <td>
                                             {{-- @if (Auth::guard('admin')->user()->can('role.edit')) --}}

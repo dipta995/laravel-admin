@@ -17,7 +17,7 @@
     @if ($input['name']!='id')
     <label for="basicInput">{{ str_replace( '_',' ', strtoupper($input['title'])) }}</label>
     @endif
-    <input type="{{ $input['type'] }}" name="{{ $input['name'] }}" {{ isset($input['required']) ? "required" : "" }} {{ isset($input['min']) ? "min=".$input['min'] : "" }}   {{ isset($input['max']) ? "max=".$input['max'] : "" }} class="form-control {{  isset($input['update']) ? $input['name'] : '' }}" id="{{ isset($input['update']) ? '' : $input['name'] }}"  placeholder="{{ isset($input['update']) ? '' : $input['placeholder'] }}">
+    <input type="{{ $input['type'] }}" name="{{ $input['name'] }}" {{ isset($input['required']) ? "required" : "" }} {{ isset($input['min']) ? "min=".$input['min'] : "" }}   {{ isset($input['max']) ? "max=".$input['max'] : "" }} class="{{ $input['type']=='radio' || $input['type']=='checkbox' ? 'form-check-input' : 'form-control' }}  {{  isset($input['update']) ? $input['name'] : '' }}" id="{{ isset($input['update']) ? '' : $input['name'] }}"  placeholder="{{ isset($input['update']) ? '' : $input['placeholder'] }}">
 </div>
 @endif
 

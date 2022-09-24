@@ -38,16 +38,36 @@ class DemoController extends Controller
         $this->show_fields =
             [
                 [
-                    'view_name' => "Name",
-                    'name' => "number",
+                    'view_name' => "select_admin_id",
+                    'base_array' => 'admin',
+                    'name' => "name",
                     'length' => "",
-                    'is_image'=>true
+                    'type'=>''
                 ],
                 [
                     'view_name' => "Email",
-                        'name' => "email",
+                    'name' => "email",
                     'length' => "",
-                    'is_image'=>false
+                    'type'=>''
+                ],
+                [
+                    'view_name' => "Password",
+                    'name' => "password",
+                    'length' => "",
+                    'type'=>''
+                ],
+                [
+                    'view_name' => "File",
+                    'name' => "file",
+                    'length' => "",
+                    'type'=>'image'
+                ],
+                [
+                    'view_name' => "Radio",
+                    'name' => "radio",
+                    'length' => "",
+                    'active_status'=>'on',
+                    'type'=>'switch'
                 ],
 
             ];
@@ -162,48 +182,104 @@ class DemoController extends Controller
                     'required' => "",
                     'update'=>""
                 ],
-                [
-                    'title' => "name",
-                    'name' => "name",
-                    'type' => "text",
-                    'field'=>"select",
-                    'modelData'=>'\Admin',
-                    'view_index'=>"name",
-                    'update'=>""
-                ],
+
+            [
+                'title' => "select_admin_id",
+                'name' => "select_admin_id",
+                'type' => "text",
+                'field'=>"select",
+                'modelData'=>'\Admin',
+                'view_index'=>"name",
+                'update' => "",
+            ],
+//            [
+//                'title' => "multiple_admin_id",
+//                'name' => "multiple_admin_id",
+//                'type' => "text",
+//                'field'=>"select",
+//                'modelData'=>'\Admin',
+//                'view_index'=>"name",
+//                'required' => "",
+//                'multiple' => "multiple",
+//            ],
+            [
+                'title' => "color",
+                'name' => "color",
+                'type' => "color",
+                'field'=>"input",
+                'update' => "",
+            ],
+            [
+                'title' => "date",
+                'name' => "date",
+                'type' => "date",
+                'field'=>"input",
+                'update' => "",
+            ],
+            [
+                'title' => "datetime-local",
+                'name' => "datetime-local",
+                'type' => "datetime-local",
+                'field'=>"input",
+                'update' => "",
+            ],
+
+            [
+                'title' => "email",
+                'name' => "email",
+                'type' => "email",
+                'field'=>"input",
+                'update' => "",
+            ],
 
 
-                [
-                    'title' => "email",
-                    'name' => "email",
-                    'type' => "email",
-                    'field'=>"input",
-                    'placeholder' => "Enter Name",
-                    'update'=>""
-                ],
+            [
+                'title' => "number",
+                'name' => "number",
+                'type' => "number",
+                'field'=>"input",
+                'update' => "",
+            ],
+            [
+                'title' => "file",
+                'name' => "file",
+                'type' => "file",
+                'field'=>"input",
+                'update' => "",
+            ],
+//                [
+//                    'title' => "file_multiple",
+//                    'name' => "file_multiple[]",
+//                    'type' => "multiple",
+//                    'field'=>"input",
+//                    'placeholder' => "Enter Email",
+//                ],
+            [
+                'title' => "password",
+                'name' => "password",
+                'type' => "password",
+                'field'=>"input",
+                'update' => "",
+            ],
+            [
+                'title' => "radio",
+                'name' => "radio",
+                'type' => "radio",
+                'field'=>"input",
+                'update' => "",
+            ],
+            [
+                'title' => "checkbox",
+                'name' => "checkbox",
+                'type' => "checkbox",
+                'field'=>"input",
+                'update' => "",
+            ],
 
-                [
-                    'title' => "phone",
-                    'name' => "phone",
-                    'type' => "text",
-                    'field'=>"input",
-                    'placeholder' => "Enter Name",
-                    'required' => "",
-                    'update'=>""
-                ],
-                [
-                    'title' => "image",
-                    'name' => "image",
-                    'type' => "file",
-                    'field'=>"input",
-                    'placeholder' => "Enter Name",
-                    'required' => "",
-                    'update'=>""
-                ],
 
 
 
-            ];
+        ];
     }
     /**
      * Display a listing of the resource.
@@ -221,7 +297,7 @@ class DemoController extends Controller
         $insert_fields = $this->insert_fields;
         $update_fields = $this->update_fields;
 
-        $view_data = Demo::select('id','number','email')->get();
+       $view_data = Demo::with('admin:id,name')->get();
         $route = 'admin.demos.edit';
         $route_create = route('admin.demos.store');
         return view('backend.pages._create',compact('view_data','pageHeader','show_fields','insert_fields','update_fields','route','route_create'));
