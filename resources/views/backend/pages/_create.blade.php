@@ -217,8 +217,11 @@ getid.prepend('<tr id="table-data'+response.id+'"><td>'+ response.id +'</td>@for
                         } else {
 
                             @foreach ($update_fields as $input)
-                                $('.{{ $input['name'] }}').val(response.student
-                                    .{{ $input['name'] }});
+                            @if($input['type']=="datetime-local")
+                            $('.{{ $input['name'] }}').val("{{ date('Y-m-d\TH:i:s', strtotime($input['name'])) }}");
+                                @else
+                            $('.{{ $input['name'] }}').val(response.student.{{ $input['name'] }});
+                               @endif
                             @endforeach
                             // $('#id').val('id');
                         }

@@ -427,10 +427,13 @@ class DemoController extends Controller
         foreach ($this->insert_fields as $key => $value) {
 
             if ($value['type']=='file') {
+                if($request->hasFile($value['name']))
+                {
                 $file = $request->file($value['name']);
                 $file_name = time() . '.' . $file->getClientOriginalExtension();
                 $send->{$value['name']}= $file_name;
                 $file->move(public_path('images/'), $file_name);
+                }
 
             }elseif(isset($value['multiple'])) {
 
