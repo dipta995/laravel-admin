@@ -38,7 +38,11 @@
                                                     </button>
                                                 </div>
                                                 <form  method="POST" id="data-insert" enctype="multipart/form-data">
-                                                <div class="modal-body">
+                                                    <div class="alert alert-danger" style="display:none"></div>
+
+
+
+                                                    <div class="modal-body">
                                                     @foreach ($insert_fields as $input)
                                                         @include('backend.pages.components._inputs._input_1',
                                                             $input)
@@ -124,8 +128,7 @@
                                             @elseif($column['type']=='switch')
                                                 <td>
                                                     <div class="form-check form-switch">
-                                                        <input
-{{--                                                            onclick="activeData({{ $value->id }},'rider')"--}}
+                                                        <input  onclick="activeData({{ $value->id }},'rider')"--}}
                                                                {{ $value->{$column['name']} == $column['active_status'] ? 'checked' : '' }}
                                                                class="form-check-input" type="checkbox">
                                                     </div>
@@ -168,7 +171,7 @@
                 e.preventDefault();
 
                 const fd = new FormData(this);
-                $(this).text('Creating..');
+                // $(this).text('Creating..');
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -184,8 +187,17 @@
                     processData: false,
                     dataType: 'json',
                     success: function(response) {
-                        if (response.status == 400) {
-                            console.log(false)
+                        if (response.status == 422) {
+
+                            $('#large').modal('show');
+
+                                    $(".alert").remove();
+                                $.each(response.errors, function(key, value){
+
+                                    $('[name=' + key + ']').after("<div class='alert alert-danger'>" + value + "</div>");
+                                    // jQuery('.alert-danger').append('<p>'+value+'</p>');
+
+                            });
                         } else {
                             var getid = $(".table tbody");
 getid.prepend('<tr id="table-data'+response.id+'"><td>'+ response.id +'</td>@foreach ($show_fields as $column)<td>'+ response.{{$column["name"]}} + '</td>@endforeach<td><button id="editbtn" value="'+ response.id +'" class="badge bg-info" >Edit</button><a class="badge bg-danger" href="#"  onclick="deleteData('+ response.id +')">Delete</a></td></tr>')

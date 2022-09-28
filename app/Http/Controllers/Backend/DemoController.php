@@ -8,6 +8,7 @@ use App\Models\Demo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 
 class DemoController extends Controller
@@ -80,7 +81,7 @@ class DemoController extends Controller
                     'field'=>"select",
                     'modelData'=>'\Admin',
                     'view_index'=>"name",
-                    'required' => "",
+//                    'required' => "",
                 ],
                 [
                     'title' => "multiple_admin_id",
@@ -89,7 +90,7 @@ class DemoController extends Controller
                     'field'=>"select",
                     'modelData'=>'\Admin',
                     'view_index'=>"name",
-                    'required' => "",
+//                    'required' => "",
                     'multiple' => "multiple",
                 ],
                 [
@@ -130,13 +131,13 @@ class DemoController extends Controller
                     'field'=>"input",
                     'placeholder' => "Enter Email",
                 ],
-                [
-                    'title' => "file",
-                    'name' => "file",
-                    'type' => "file",
-                    'field'=>"input",
-                    'placeholder' => "Enter Email",
-                ],
+//                [
+//                    'title' => "file",
+//                    'name' => "file",
+//                    'type' => "file",
+//                    'field'=>"input",
+//                    'placeholder' => "Enter Email",
+//                ],
 //                [
 //                    'title' => "file_multiple",
 //                    'name' => "file_multiple[]",
@@ -151,22 +152,6 @@ class DemoController extends Controller
                     'field'=>"input",
                     'placeholder' => "Enter Email",
                 ],
-                [
-                    'title' => "radio",
-                    'name' => "radio",
-                    'type' => "radio",
-                    'field'=>"input",
-                    'placeholder' => "Enter Email",
-                ],
-                [
-                    'title' => "checkbox",
-                    'name' => "checkbox",
-                    'type' => "checkbox",
-                    'field'=>"input",
-                    'placeholder' => "Enter Email",
-                ],
-
-
 
 
             ];
@@ -179,7 +164,7 @@ class DemoController extends Controller
                     'type' => "hidden",
                     'field'=>"input",
                     'placeholder' => "",
-                    'required' => "",
+//                    'required' => "",
                     'update'=>""
                 ],
 
@@ -192,16 +177,16 @@ class DemoController extends Controller
                 'view_index'=>"name",
                 'update' => "",
             ],
-//            [
-//                'title' => "multiple_admin_id",
-//                'name' => "multiple_admin_id",
-//                'type' => "text",
-//                'field'=>"select",
-//                'modelData'=>'\Admin',
-//                'view_index'=>"name",
+            [
+                'title' => "multiple_admin_id",
+                'name' => "multiple_admin_id",
+                'type' => "text",
+                'field'=>"select",
+                'modelData'=>'\Admin',
+                'view_index'=>"name",
 //                'required' => "",
-//                'multiple' => "multiple",
-//            ],
+                'multiple' => "multiple",
+            ],
             [
                 'title' => "color",
                 'name' => "color",
@@ -261,23 +246,6 @@ class DemoController extends Controller
                 'field'=>"input",
                 'update' => "",
             ],
-            [
-                'title' => "radio",
-                'name' => "radio",
-                'type' => "radio",
-                'field'=>"input",
-                'update' => "",
-            ],
-            [
-                'title' => "checkbox",
-                'name' => "checkbox",
-                'type' => "checkbox",
-                'field'=>"input",
-                'update' => "",
-            ],
-
-
-
 
         ];
     }
@@ -331,10 +299,23 @@ class DemoController extends Controller
         //     abort(403,'Unauthorized Access');
         // }
 
-//        $request->validate([
-//            'name' => 'required',
-//            'phone' => 'required',
-//        ]);
+        $validator = Validator::make($request->all(), [
+            'number' => 'required|min:22',
+            'select_admin_id' => 'required',
+            'email' => 'required|email|unique:demos',
+            'date' => 'date',
+            'color' => 'required',
+            'password' => 'required|min:8',
+            'select_admin_id' => 'required',
+        ]);
+        if ($validator->fails())   //check all validations are fine, if not then redirect and show error messages
+        {
+
+            return response()->json(
+                ['status'=> 422,
+                 'errors'=>$validator->errors()
+        ]);
+        }
         //  $send = Demo::insert($request->except($this->except_column));
         $send = new Demo();
         foreach ($this->insert_fields as $key => $value) {
