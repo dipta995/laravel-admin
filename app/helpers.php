@@ -9,8 +9,11 @@ function getData($model)
 
 function imageUpload($file)
 {
-
-    return  time() . '.' . $file->extension();
-
-
+    $file_name = time() . '.' . $file->getClientOriginalExtension();
+    $file->move(public_path('images/'), $file_name);
+    return $file_name;
+}
+function removeOldImage($file)
+{
+    unset($file);
 }

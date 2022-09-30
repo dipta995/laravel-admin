@@ -5,7 +5,10 @@
 <div class="form-group">
     <label for="basicInput">{{ str_replace( '_',' ', strtoupper($input['title'])) }}</label>
     <select name="{{ isset($input['multiple']) ? $input['name'].'[]' : $input['name'] }}" {{ isset($input['required']) ? "required" : "" }} class="form-control simple-selector {{  isset($input['update']) ? $input['name'] : '' }} {{ isset($input['multiple']) ? 'choices multiple-remove' : ''}} @error($input['name']) is-invalid @enderror" id="{{ isset($input['update']) ? '' : $input['name'] }}" {{ isset($input['multiple']) ? 'multiple' : "" }}>
-        <option value=""> --CHOOSE {{ str_replace( '_',' ', strtoupper($input['title'])) }}</option>
+        @if(isset($input['multiple']))
+        @else
+        <option value=""> --CHOOSE {{ str_replace( '_',' ', strtoupper($input['title'])) }} --</option>
+        @endif
 
     @foreach (getData($input['modelData']) as $item)
         <option value="{{ $item->id }}"   >{{ $item->$viewindex }}</option>
