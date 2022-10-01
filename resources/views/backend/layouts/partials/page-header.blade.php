@@ -13,14 +13,14 @@
                     @if (Route::is('admin.' . $pageHeader['plural_name'] . '.create') ||
                         Route::is('admin.' . $pageHeader['plural_name'] . '.edit'))
                         <a class="btn btn-outline-info btn-sm"
-                           href="{{ route($pageHeader['index_button']) }}">{{ $pageHeader['title'] }}</a>
+                           href="{{ ($pageHeader['index_route']) }}">{{ $pageHeader['title'] }}</a>
                     @else
                         @if (!Route::is('home'))
                             <a class="btn btn-outline-info btn-sm"
-                               href="{{ route($pageHeader['create_button']) }}">Create {{ $pageHeader['title'] }}</a>
+                               href="{{ ($pageHeader['store_route']) }}">Create {{ $pageHeader['title'] }}</a>
                         @else
                             <a class="btn btn-outline-info btn-sm"
-                               href="{{ route($pageHeader['create_button']) }}">{{ $pageHeader['title'] }}</a>
+                               href="{{ ($pageHeader['store_route']) }}">{{ $pageHeader['title'] }}</a>
                         @endif
                     @endif
                 </li>

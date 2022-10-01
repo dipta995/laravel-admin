@@ -179,7 +179,7 @@
                 });
 
                 $.ajax({
-                    url: '{{ $route_create }}   ',
+                    url: '{{ $pageHeader['store_route'] }}   ',
                     method: 'post',
                     data: fd,
                     cache: false,
@@ -217,12 +217,12 @@ getid.prepend('<tr id="table-data'+response.id+'"><td>'+ response.id +'</td>@for
 
             $(document).on('click', '#editbtn', function(e) {
                 e.preventDefault();
-
                 var id = $(this).val();
+                console.log(id)
                 $('#large1').modal('show');
                 $.ajax({
                     type: "GET",
-                    url: "http://127.0.0.1:8000/admin/demos/" + id + "/edit",
+                    url: "{{ ($pageHeader['base_url']) }}/"+ id + "/edit",
                     success: function(response) {
                         if (response.status == 404) {
                             $('#large1').modal('hide');
@@ -259,7 +259,7 @@ getid.prepend('<tr id="table-data'+response.id+'"><td>'+ response.id +'</td>@for
 
 
                 $.ajax({
-                    url: "http://127.0.0.1:8000/admin/demo/update/"+id,
+                    url: "{{ ($pageHeader['base_url']) }}"+id,
                     method: 'post',
                     data: fd,
                     cache: false,
@@ -308,7 +308,7 @@ getid.prepend('<tr id="table-data'+id+'"><td>'+ id +'</td>@foreach ($show_fields
                         })
                 $.ajax({
                     type: "DELETE",
-                    url: "http://127.0.0.1:8000/admin/demos/" + id,
+                    url: "{{ ($pageHeader['base_url']) }}/" + id,
                     data: {
                         _token: $("input[name=_token]").val()
                     },

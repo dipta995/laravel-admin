@@ -162,7 +162,7 @@ class TestController extends Controller
         $view_data = Test::select('id','name','email')->get();
         $route = 'admin.tests.edit';
         $route_create = route('admin.tests.store');
-        return view('backend.pages._create',compact('view_data','pageHeader','show_fields','insert_fields','update_fields','route','route_create'));
+        return view('backend.pages._ajax_index',compact('view_data','pageHeader','show_fields','insert_fields','update_fields','route','route_create'));
     }
 
     /**
@@ -178,7 +178,7 @@ class TestController extends Controller
         $pageHeader = $this->pageHeader;
         $insert_fields = $this->insert_fields;
         $route = route('admin.tests.store');
-        return view('backend.pages._create',compact('pageHeader','insert_fields','route'));
+        return view('backend.pages._ajax_index',compact('pageHeader','insert_fields','route'));
     }
 
     /**
@@ -270,7 +270,7 @@ class TestController extends Controller
                 'message'=>"error"
             ]);
         }
-        return view('backend.pages._create',compact('pageHeader','update_fields','data','route'));
+        return view('backend.pages._ajax_index',compact('pageHeader','update_fields','data','route'));
     }
 
     /**
