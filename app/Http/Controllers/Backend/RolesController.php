@@ -13,19 +13,30 @@ class RolesController extends Controller
 {
     public $user;
     public $pageHeader;
-
+    public $show_fields;
+    public $insert_fields;
+    public $update_fields;
+    public $except_column;
+    public $index_route = "admin.demos.index";
+    public $create_route = "admin.demos.create";
+    public $store_route = "admin.demos.store";
     public function __construct()
     {
+
         $this->middleware(function ($request, $next) {
             $this->user = Auth::guard('admin')->user();
             return $next($request);
         });
         $this->pageHeader = [
-            'title' => "Dashboard",
+            'title' => "Demo",
             'sub_title' => "",
-            'plural_name' => "dashboards",
-            'index_button' => "admin.roles.index",
-            'create_button' => "admin.roles.create"
+            'plural_name' => "demo",
+            'singular_name' => "demos",
+            'index_route' => route($this->index_route),
+            'create_route' => route($this->create_route),
+            'store_route' => route($this->store_route),
+            'base_url' => url('admin/demos'),
+
         ];
     }
 

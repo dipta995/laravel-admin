@@ -15,17 +15,17 @@ return new class extends Migration
     {
         Schema::create('demos', function (Blueprint $table) {
             $table->id();
-            $table->string('select_admin_id');
-            $table->string('multiple_admin_id');
-            $table->string('color');
-            $table->string('date');
-            $table->string('datetime-local');
-            $table->string('email');
-            $table->string('file');
+            $table->string('select_admin_id')->nullable();
+            $table->string('multiple_admin_id')->nullable();
+            $table->string('color')->nullable();
+            $table->string('date')->nullable();
+            $table->string('datetime-local')->nullable();
+            $table->string('email')->nullable();
+            $table->string('file')->nullable();
             $table->string('file_multiple')->nullable();
-            $table->string('number');
-            $table->string('password');
-            $table->string('radio');
+            $table->string('number')->nullable();
+            $table->string('password')->nullable();
+            $table->string('radio')->nullable();
             $table->string('checkbox')->nullable();
             $table->integer('is_active')->default(0);
             $table->integer('serialize')->default(0);

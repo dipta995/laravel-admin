@@ -75,6 +75,19 @@ class RolePermissionSeeder extends Seeder
                     'profile.edit',
                 ]
             ],
+
+
+            [
+                'group_name' => 'demo',
+                'permissions' => [
+                    // demo Permissions
+                    'demo.create',
+                    'demo.view',
+                    'demo.edit',
+                    'demo.delete',
+                    'demo.approve',
+                ]
+            ],
         ];
 
 

@@ -22,10 +22,6 @@ class DemoController extends Controller
     public $index_route = "admin.demos.index";
     public $create_route = "admin.demos.create";
     public $store_route = "admin.demos.store";
-    public $edit_route = "admin.demos.edit";
-    public $update_route = "admin.demos.update";
-    public $delete_route = "admin.demos.destroy";
-    public $show_route = "admin.demos.show";
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
@@ -33,9 +29,10 @@ class DemoController extends Controller
             return $next($request);
         });
         $this->pageHeader = [
-            'title' => "Dashboard",
+            'title' => "Demo",
             'sub_title' => "",
-            'plural_name' => "dashboards",
+            'plural_name' => "demos",
+            'singular_name' => "demo",
             'index_route' => route($this->index_route),
             'create_route' => route($this->create_route),
             'store_route' => route($this->store_route),
@@ -71,10 +68,9 @@ class DemoController extends Controller
                     'type'=>'image'
                 ],
                 [
-                    'view_name' => "Radio",
-                    'name' => "radio",
+                    'view_name' => "Is Active",
+                    'name' => "is_active",
                     'length' => "",
-                    'active_status'=>'on',
                     'type'=>'switch'
                 ],
 
@@ -355,7 +351,18 @@ class DemoController extends Controller
      */
     public function show($id)
     {
-        //
+        if (is_null($this->user) || !$this->user->can('role.edit')) {
+            abort(403, 'Unauthorized Access');
+        }
+        $data = Demo::where('id', $id)->first();
+        if ($data->is_active == '1') {
+            $status = "0";
+        } else {
+            $status = "1";
+        }
+        Demo::where('id', $id)->update([
+            'is_active' =>  $status
+        ]);
 
     }
 

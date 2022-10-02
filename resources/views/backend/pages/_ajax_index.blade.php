@@ -128,9 +128,7 @@
                                             @elseif($column['type']=='switch')
                                                 <td>
                                                     <div class="form-check form-switch">
-                                                        <input  onclick="activeData({{ $value->id }},'rider')"--}}
-                                                               {{ $value->{$column['name']} == $column['active_status'] ? 'checked' : '' }}
-                                                               class="form-check-input" type="checkbox">
+                                                        <input  onclick="activeData({{ $value->id }})" {{ $value->{$column['name']} == 1 ? 'checked' : '' }} class="form-check-input" type="checkbox">
                                                     </div>
                                                 </td>
                                             @else
@@ -138,13 +136,13 @@
                                             @endif
                                         @endforeach
                                         <td>
-                                            {{-- @if (Auth::guard('admin')->user()->can('role.edit')) --}}
+                                             @if (Auth::guard('admin')->user()->can($pageHeader['singular_name'].'.edit'))
                                             <button id="editbtn" value="{{ $value->id }}" class="badge bg-info"
                                                 href="#">Edit</button>
-                                            {{-- @endif
-                                            @if (Auth::guard('admin')->user()->can('role.delete')) --}}
+                                             @endif
+                                            @if (Auth::guard('admin')->user()->can($pageHeader['singular_name'].'.delete'))
                                             <a class="badge bg-danger" href="#"  onclick="deleteData({{ $value->id }})"  >Delete</a>
-                                            {{-- @endif --}}
+                                             @endif
                                         </td>
 
                                     </tr>
@@ -333,10 +331,46 @@ getid.prepend('<tr id="table-data'+id+'"><td>'+ id +'</td>@foreach ($show_fields
     }
 
     function deleteData1(id) {
-
         $("#table-data" + id).remove();
-            }
+    }
 
+        function activeData(id) {
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+            $.ajax({
+                url: "{{ ($pageHeader['base_url']) }}/"+id,
+                type: "GET",
+                data: {
+                    _token: $("input[name=_token]").val()
+                },
+                success: function(response) {
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Success !'
+                    })
+
+                },
+                error: function(response) {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Opps! Something Wrong.'
+                    })
+                },
+            });
+
+
+        }
 
 
 
