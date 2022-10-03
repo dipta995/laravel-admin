@@ -27,22 +27,22 @@ Route::get('/storage-shortcut', function () {
 Route::get('/', function () {
     return view('welcome');
 });
-Route::group(['prefix' => 'admin'], function () {
+Route::prefix('admin')->name('admin.')->group(function () {
 
-Route::get('/login',[AuthenticatedSessionController::class,'create'])->name('admin.login');
-Route::post('/login/submit',[AuthenticatedSessionController::class,'store'])->name('admin.login.submit');
-Route::post('/logout/submit',[AuthenticatedSessionController::class,'destroy'])->name('admin.logout.submit');
+Route::get('/login',[AuthenticatedSessionController::class,'create'])->name('login');
+Route::post('/login/submit',[AuthenticatedSessionController::class,'store'])->name('login.submit');
+Route::post('/logout/submit',[AuthenticatedSessionController::class,'destroy'])->name('logout.submit');
 
-Route::get('/password/reset',[PasswordResetLinkController::class,'create'])->name('admin.password');
-Route::post('/password/reset/submit',[PasswordResetLinkController::class,'destroy'])->name('admin.password.submit');
+Route::get('/password/reset',[PasswordResetLinkController::class,'create'])->name('password');
+Route::post('/password/reset/submit',[PasswordResetLinkController::class,'destroy'])->name('password.submit');
 
 Route::get('/',[DashboardController::class,'index'])->name('home');
-Route::resource('roles', RolesController::class,['names'=>'admin.roles']);
-Route::resource('admins', AdminController::class,['names'=>'admin.admins']);
-Route::resource('users', UserController::class,['names'=>'admin.users']);
-Route::resource('tests', TestController::class,['names'=>'admin.tests']);
+Route::resource('roles', RolesController::class,['names'=>'roles']);
+Route::resource('admins', AdminController::class,['names'=>'admins']);
+Route::resource('users', UserController::class,['names'=>'users']);
+Route::resource('tests', TestController::class,['names'=>'tests']);
 Route::post('/test/update/{id}',[TestController::class,'update'])->name('updatetest');
-Route::resource('demos', DemoController::class,['names'=>'admin.demos']);
+Route::resource('demos', DemoController::class,['names'=>'demos']);
 //Route::post('/demo/update/{id}',[DemoController::class,'update'])->name('updatedemo');
 });
 Route::get('/dashboard', function () {

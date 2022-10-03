@@ -7,7 +7,7 @@
     <div class="col-12 col-md-6 order-md-2 order-first">
         <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a class="btn btn-outline-info btn-sm" href="{{ route('home') }}">Dashboard</a>
+                <li class="breadcrumb-item"><a class="btn btn-outline-info btn-sm" href="{{ route('admin.home') }}">Dashboard</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">
                     @if (Route::is('admin.' . $pageHeader['plural_name'] . '.create') ||

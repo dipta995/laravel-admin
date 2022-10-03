@@ -8,7 +8,7 @@
         <section class="section">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Basic Inputs</h4>
+                    <h4 class="card-title">{{ $pageHeader['singular_name'] }}</h4>
                 </div>
 
                 {{-- View --}}

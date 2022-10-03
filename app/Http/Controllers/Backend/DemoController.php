@@ -259,7 +259,7 @@ class DemoController extends Controller
      */
     public function index()
     {
-        if (is_null($this->user) || !$this->user->can('admin.view')) {
+        if (is_null($this->user) || !$this->user->can($this->pageHeader['singular_name'].'.view')) {
             abort(403,'Unauthorized Access');
         }
 
@@ -279,9 +279,9 @@ class DemoController extends Controller
      */
     public function create()
     {
-//        if (is_null($this->user) || !$this->user->can('admin.create')) {
-//            abort(403,'Unauthorized Access');
-//        }
+        if (is_null($this->user) || !$this->user->can($this->pageHeader['singular_name'].'.create')) {
+            abort(403,'Unauthorized Access');
+        }
     }
 
     /**
@@ -292,9 +292,9 @@ class DemoController extends Controller
      */
     public function store(Request $request)
     {
-        // if (is_null($this->user) || !$this->user->can('admin.create')) {
-        //     abort(403,'Unauthorized Access');
-        // }
+         if (is_null($this->user) || !$this->user->can($this->pageHeader['singular_name'].'.create')) {
+             abort(403,'Unauthorized Access');
+         }
         $validator = Validator::make($request->all(), [
 //            'number' => 'required|min:2',
 //            'select_admin_id' => 'required',
@@ -374,12 +374,10 @@ class DemoController extends Controller
      */
     public function edit($id)
     {
-//        if (is_null($this->user) || !$this->user->can('admin.edit')) {
-//            abort(403,'Unauthorized Access');
-//        }
-
+        if (is_null($this->user) || !$this->user->can('admin.edit')) {
+            abort(403,'Unauthorized Access');
+        }
          $data = Demo::find($id);
-        $route = route("admin.demos.update",$data->id);
         if ($data){
             return response()->json([
                 'status'=>200,
@@ -402,9 +400,9 @@ class DemoController extends Controller
      */
     public function update(Request $request,$id)
     {
-        // if (is_null($this->user) || !$this->user->can('admin.edit')) {
-        //     abort(403,'Unauthorized Access');
-        // }
+         if (is_null($this->user) || !$this->user->can($this->pageHeader['singular_name'].'.edit')) {
+             abort(403,'Unauthorized Access');
+         }
 
         $send = Demo::findOrFail($id);
         foreach ($this->insert_fields as $key => $value) {
@@ -450,7 +448,7 @@ class DemoController extends Controller
      */
     public function destroy($id)
     {
-        if (is_null($this->user) || !$this->user->can('admin.delete')) {
+        if (is_null($this->user) || !$this->user->can($this->pageHeader['singular_name'].'.delete')) {
             abort(403,'Unauthorized Access');
         }
         $data = Demo::find($id);
