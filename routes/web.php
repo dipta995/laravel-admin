@@ -27,14 +27,15 @@ Route::get('/storage-shortcut', function () {
 Route::get('/', function () {
     return view('welcome');
 });
-Route::prefix('admin')->name('admin.')->group(function () {
-
+Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
 Route::get('/login',[AuthenticatedSessionController::class,'create'])->name('login');
 Route::post('/login/submit',[AuthenticatedSessionController::class,'store'])->name('login.submit');
 Route::post('/logout/submit',[AuthenticatedSessionController::class,'destroy'])->name('logout.submit');
 
 Route::get('/password/reset',[PasswordResetLinkController::class,'create'])->name('password');
 Route::post('/password/reset/submit',[PasswordResetLinkController::class,'destroy'])->name('password.submit');
+});
+Route::group(['as' => 'admin.', 'prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
 
 Route::get('/',[DashboardController::class,'index'])->name('home');
 Route::resource('roles', RolesController::class,['names'=>'roles']);

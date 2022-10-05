@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
@@ -16,19 +15,24 @@ class AdminController extends Controller
     public $show_fields;
     public $insert_fields;
     public $update_fields;
+    public $except_column;
+    public $index_route = "admin.admins.index";
+    public $create_route = "admin.admins.create";
+    public $store_route = "admin.admins.store";
 
     public function __construct()
     {
-        $this->middleware(function ($request, $next) {
-            $this->user = Auth::guard('admin')->user();
-            return $next($request);
-        });
+        $this->checkGuard();
         $this->pageHeader = [
-            'title' => "Dashboard",
+            'title' => "Admin",
             'sub_title' => "",
-            'plural_name' => "dashboards",
-            'index_button' => "admin.admins.index",
-            'create_button' => "admin.admins.create"
+            'plural_name' => "admins",
+            'singular_name' => "admin",
+            'index_route' => route($this->index_route),
+            'create_route' => route($this->create_route),
+            'store_route' => route($this->store_route),
+            'base_url' => url('admin/admins'),
+
         ];
     }
     /**
@@ -38,9 +42,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        if (is_null($this->user) || !$this->user->can('admin.view')) {
-            abort(403,'Unauthorized Access');
-        }
+        $this->checkOwnPermission('view');
 
         $pageHeader = $this->pageHeader;
 
