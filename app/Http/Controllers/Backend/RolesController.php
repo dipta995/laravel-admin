@@ -22,11 +22,7 @@ class RolesController extends Controller
     public $store_route = "admin.demos.store";
     public function __construct()
     {
-
-        $this->middleware(function ($request, $next) {
-            $this->user = Auth::guard('admin')->user();
-            return $next($request);
-        });
+        $this->checkGuard();
         $this->pageHeader = [
             'title' => "Demo",
             'sub_title' => "",
@@ -51,9 +47,7 @@ class RolesController extends Controller
      */
     public function index()
     {
-        if (is_null($this->user) || !$this->user->can('role.view')) {
-            abort(403,'Unauthorized Access');
-        }
+        $this->checkOwnPermission('view');
         $pageHeader = $this->pageHeader;
 
         $roles = Role::all();
@@ -67,9 +61,7 @@ class RolesController extends Controller
      */
     public function create()
     {
-        if (is_null($this->user) || !$this->user->can('role.create')) {
-            abort(403,'Unauthorized Access');
-        }
+        $this->checkOwnPermission('create');
         $pageHeader = $this->pageHeader;
 
         $permission_groups=Admin::getpermissionGroups();
@@ -85,9 +77,7 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        if (is_null($this->user) || !$this->user->can('role.create')) {
-            abort(403,'Unauthorized Access');
-        }
+        $this->checkOwnPermission('create');
         $request->validate([
             'name'=> 'required|max:100|unique:roles'
         ],[
@@ -122,9 +112,7 @@ class RolesController extends Controller
      */
     public function edit($id)
     {
-        if (is_null($this->user) || !$this->user->can('role.edit')) {
-            abort(403,'Unauthorized Access');
-        }
+        $this->checkOwnPermission('edit');
         $pageHeader = $this->pageHeader;
 
         $role = Role::findById($id,'admin');
@@ -142,9 +130,7 @@ class RolesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (is_null($this->user) || !$this->user->can('role.edit')) {
-            abort(403,'Unauthorized Access');
-        }
+        $this->checkOwnPermission('edit');
         $request->validate([
             'name'=> 'required|max:100'
         ],[
@@ -171,9 +157,7 @@ class RolesController extends Controller
      */
     public function destroy($id)
     {
-        if (is_null($this->user) || !$this->user->can('role.delete')) {
-            abort(403,'Unauthorized Access');
-        }
+        $this->checkOwnPermission('delete');
         $role = Role::findById($id,'admin');
         if (!is_null($role)) {
             $role->delete();

@@ -16,10 +16,7 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware(function ($request, $next) {
-            $this->user = Auth::guard('admin')->user();
-            return $next($request);
-        });
+        $this->checkGuard();
         $this->pageHeader = [
             'title' => "Dashboard",
             'sub_title' => "",
@@ -35,9 +32,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        if (is_null($this->user) || !$this->user->can('admin.view')) {
-            abort(403,'Unauthorized Access');
-        }
+        $this->checkOwnPermission('view');
         $pageHeader = $this->pageHeader;
 
         $users = User::all();
@@ -51,9 +46,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        if (is_null($this->user) || !$this->user->can('admin.create')) {
-            abort(403,'Unauthorized Access');
-        }
+        $this->checkOwnPermission('create');
         $pageHeader = $this->pageHeader;
 
         $roles = Role::all();
@@ -68,9 +61,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        if (is_null($this->user) || !$this->user->can('admin.create')) {
-            abort(403,'Unauthorized Access');
-        }
+        $this->checkOwnPermission('create');
         $request->validate([
             'name'=> 'required|max:50',
             'email'=> 'required|unique:users',
@@ -119,9 +110,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        if (is_null($this->user) || !$this->user->can('admin.edit')) {
-            abort(403,'Unauthorized Access');
-        }
+        $this->checkOwnPermission('edit');
         $pageHeader = $this->pageHeader;
 
         $user = User::find($id);
@@ -138,9 +127,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (is_null($this->user) || !$this->user->can('admin.edit')) {
-            abort(403,'Unauthorized Access');
-        }
+        $this->checkOwnPermission('edit');
 
         $user = User::find($id);
         $request->validate([
@@ -174,9 +161,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        if (is_null($this->user) || !$this->user->can('admin.delete')) {
-            abort(403,'Unauthorized Access');
-        }
+        $this->checkOwnPermission('delete');
          $user = User::findById($id);
          if (!is_null($user)) {
              $user->delete();

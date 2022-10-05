@@ -57,9 +57,7 @@ class AdminController extends Controller
      */
     public function create()
     {
-        if (is_null($this->user) || !$this->user->can('admin.create')) {
-            abort(403,'Unauthorized Access');
-        }
+        $this->checkOwnPermission('create');
         $pageHeader = $this->pageHeader;
         $roles = Role::all();
         return view('backend.pages.admins.create',compact('roles','pageHeader'));
@@ -73,9 +71,7 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        if (is_null($this->user) || !$this->user->can('admin.create')) {
-            abort(403,'Unauthorized Access');
-        }
+        $this->checkOwnPermission('create');
 
         $request->validate([
             'name'=> 'required|max:50',
@@ -127,9 +123,7 @@ class AdminController extends Controller
      */
     public function edit($id)
     {
-        if (is_null($this->user) || !$this->user->can('admin.edit')) {
-            abort(403,'Unauthorized Access');
-        }
+        $this->checkOwnPermission('edit');
         $pageHeader = $this->pageHeader;
         $admin = Admin::find($id);
         $roles = Role::all();
@@ -145,9 +139,7 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (is_null($this->user) || !$this->user->can('admin.edit')) {
-            abort(403,'Unauthorized Access');
-        }
+        $this->checkOwnPermission('edit');
 
         $user = Admin::find($id);
         $request->validate([
@@ -181,9 +173,7 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        if (is_null($this->user) || !$this->user->can('admin.delete')) {
-            abort(403,'Unauthorized Access');
-        }
+        $this->checkOwnPermission('delete');
          $user = Admin::findById($id);
          if (!is_null($user)) {
              $user->delete();
