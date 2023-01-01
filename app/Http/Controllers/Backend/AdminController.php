@@ -42,7 +42,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $this->checkOwnPermission('view');
+        $this->checkOwnPermission('admin.view');
 
         $pageHeader = $this->pageHeader;
 
@@ -57,7 +57,7 @@ class AdminController extends Controller
      */
     public function create()
     {
-        $this->checkOwnPermission('create');
+        $this->checkOwnPermission('admin.create');
         $pageHeader = $this->pageHeader;
         $roles = Role::all();
         return view('backend.pages.admins.create',compact('roles','pageHeader'));
@@ -71,7 +71,7 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        $this->checkOwnPermission('create');
+        $this->checkOwnPermission('admin.create');
 
         $request->validate([
             'name'=> 'required|max:50',
@@ -123,7 +123,7 @@ class AdminController extends Controller
      */
     public function edit($id)
     {
-        $this->checkOwnPermission('edit');
+        $this->checkOwnPermission('admin.edit');
         $pageHeader = $this->pageHeader;
         $admin = Admin::find($id);
         $roles = Role::all();
@@ -139,7 +139,7 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->checkOwnPermission('edit');
+        $this->checkOwnPermission('admin.edit');
 
         $user = Admin::find($id);
         $request->validate([
@@ -173,7 +173,7 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        $this->checkOwnPermission('delete');
+        $this->checkOwnPermission('admin.delete');
          $user = Admin::findById($id);
          if (!is_null($user)) {
              $user->delete();

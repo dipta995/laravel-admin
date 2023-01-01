@@ -24,7 +24,7 @@ class Controller extends BaseController
     protected function checkOwnPermission($permission)
     {
 
-        if (is_null($this->user) || !$this->user->can('admin.'.$permission)) {
+        if (is_null($this->user) || !$this->user->can($permission)) {
             abort(403,'Unauthorized Access');
         }
     }

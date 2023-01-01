@@ -32,7 +32,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $this->checkOwnPermission('view');
+        $this->checkOwnPermission('user.view');
         $pageHeader = $this->pageHeader;
 
         $users = User::all();
@@ -46,7 +46,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $this->checkOwnPermission('create');
+        $this->checkOwnPermission('user.create');
         $pageHeader = $this->pageHeader;
 
         $roles = Role::all();
@@ -61,7 +61,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $this->checkOwnPermission('create');
+        $this->checkOwnPermission('user.create');
         $request->validate([
             'name'=> 'required|max:50',
             'email'=> 'required|unique:users',
@@ -110,7 +110,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $this->checkOwnPermission('edit');
+        $this->checkOwnPermission('user.edit');
         $pageHeader = $this->pageHeader;
 
         $user = User::find($id);
@@ -127,7 +127,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->checkOwnPermission('edit');
+        $this->checkOwnPermission('user.edit');
 
         $user = User::find($id);
         $request->validate([
@@ -161,7 +161,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $this->checkOwnPermission('delete');
+        $this->checkOwnPermission('user.delete');
          $user = User::findById($id);
          if (!is_null($user)) {
              $user->delete();

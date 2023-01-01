@@ -47,7 +47,7 @@ class RolesController extends Controller
      */
     public function index()
     {
-        $this->checkOwnPermission('view');
+        $this->checkOwnPermission('role.view');
         $pageHeader = $this->pageHeader;
 
         $roles = Role::all();
@@ -61,7 +61,7 @@ class RolesController extends Controller
      */
     public function create()
     {
-        $this->checkOwnPermission('create');
+        $this->checkOwnPermission('role.create');
         $pageHeader = $this->pageHeader;
 
         $permission_groups=Admin::getpermissionGroups();
@@ -77,7 +77,7 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        $this->checkOwnPermission('create');
+        $this->checkOwnPermission('role.create');
         $request->validate([
             'name'=> 'required|max:100|unique:roles'
         ],[
@@ -112,7 +112,7 @@ class RolesController extends Controller
      */
     public function edit($id)
     {
-        $this->checkOwnPermission('edit');
+        $this->checkOwnPermission('role.edit');
         $pageHeader = $this->pageHeader;
 
         $role = Role::findById($id,'admin');
@@ -130,7 +130,7 @@ class RolesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->checkOwnPermission('edit');
+        $this->checkOwnPermission('role.edit');
         $request->validate([
             'name'=> 'required|max:100'
         ],[
@@ -157,7 +157,7 @@ class RolesController extends Controller
      */
     public function destroy($id)
     {
-        $this->checkOwnPermission('delete');
+        $this->checkOwnPermission('role.delete');
         $role = Role::findById($id,'admin');
         if (!is_null($role)) {
             $role->delete();
