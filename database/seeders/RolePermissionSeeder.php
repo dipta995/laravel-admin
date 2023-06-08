@@ -18,10 +18,10 @@ class RolePermissionSeeder extends Seeder
     public function run()
     {
         // Create Roles
-        $roleSuperAdmin = Role::create(['name' => 'superadmin','guard_name' => 'admin']);
-        $roleAdmin = Role::create(['name' => 'admin','guard_name' => 'admin']);
-        $roleEditor = Role::create(['name' => 'editor','guard_name' => 'admin']);
-        $roleUser = Role::create(['name' => 'user','guard_name' => 'admin']);
+        $roleSuperAdmin = Role::create(['name' => 'superadmin', 'guard_name' => 'admin']);
+        $roleAdmin = Role::create(['name' => 'admin', 'guard_name' => 'admin']);
+        $roleEditor = Role::create(['name' => 'editor', 'guard_name' => 'admin']);
+        $roleUser = Role::create(['name' => 'user', 'guard_name' => 'admin']);
 
 
         // Permission List as array
@@ -75,8 +75,6 @@ class RolePermissionSeeder extends Seeder
                     'profile.edit',
                 ]
             ],
-
-
             [
                 'group_name' => 'demo',
                 'permissions' => [
@@ -86,6 +84,16 @@ class RolePermissionSeeder extends Seeder
                     'demo.edit',
                     'demo.delete',
                     'demo.approve',
+                ]
+            ],
+            [
+                'group_name' => 'post',
+                'permissions' => [
+                    // Post Permissions
+                    'post.create',
+                    'post.view',
+                    'post.edit',
+                    'post.delete',
                 ]
             ],
         ];

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Demo;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,7 +14,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('demos', function (Blueprint $table) {
+        Schema::create(with(new Demo)->getTable(), function (Blueprint $table) {
             $table->id();
             $table->string('select_admin_id')->nullable();
             $table->string('multiple_admin_id')->nullable();
@@ -40,6 +41,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('demos');
+        Schema::dropIfExists(with(new Demo)->getTable());
     }
 };

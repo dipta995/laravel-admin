@@ -29,11 +29,11 @@ class DashboardController extends Controller
 
     public function index()
     {
-        if(Auth::guard('admin')->check()!='true'){
+        if (Auth::guard('admin')->check() != 'true') {
             return redirect('admin/login');
         }
         $pageHeader = $this->pageHeader;
 
-        return view('backend.pages.dashboard.index',compact('pageHeader'));
+        return view('backend.pages.dashboard.index', compact('pageHeader'));
     }
 }

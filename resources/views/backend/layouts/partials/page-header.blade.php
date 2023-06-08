@@ -17,10 +17,10 @@
                     @else
                         @if (!Route::is('home'))
                             <a class="btn btn-outline-info btn-sm"
-                               href="{{ ($pageHeader['create_route']) }}">Create {{ $pageHeader['title'] }}</a>
+                               href="{{ ($pageHeader['create_route']) }}">Create {{ $pageHeader['singular_name'] }}</a>
                         @else
                             <a class="btn btn-outline-info btn-sm"
-                               href="{{ ($pageHeader['create_route']) }}">{{ $pageHeader['title'] }}</a>
+                               href="{{ ($pageHeader['create_route']) }}">{{ $pageHeader['singular_name'] }}</a>
                         @endif
                     @endif
                 </li>

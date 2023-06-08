@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{ asset('/backend/assets/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/backend/assets/vendors/fontawesome/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/backend/assets/vendors/toastify/toastify.css') }}">
+    <link rel="stylesheet" href="{{ asset('/backend/assets/vendors/summernote/summernote-lite.min.css') }}">
     <style>
         table.dataTable td{
             padding: 15px 8px;

@@ -12,8 +12,7 @@ class AuthenticatedSessionController extends Controller
 {
     public function __construct()
     {
-
-
+        //
     }
 
     /**
@@ -23,7 +22,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
     {
-        if(Auth::guard('admin')->check()=='true'){
+        if (Auth::guard('admin')->check() == 'true') {
             return redirect('/admin');
         }
         return view('backend.auth.login');
@@ -37,14 +36,14 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        if (Auth::guard('admin')->attempt(['email' => $request->email,'password' => $request->password],$request->remember)) {
-            session()->flash('success','successfully Login');
+        if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+            session()->flash('success', 'Logged in Successfully!');
             return redirect()->intended(RouteServiceProvider::ADMIN_HOME);
-        }else{
+        } else {
 
-            session()->flash('error','Incorrenct Email Or password');
+            session()->flash('error', 'Incorrenct Email Or password');
             return back();
-    }
+        }
     }
 
     /**

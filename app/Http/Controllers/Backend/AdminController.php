@@ -7,30 +7,31 @@ use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use Illuminate\Pagination\Paginator;
 
 class AdminController extends Controller
 {
-    public $user;
     public $pageHeader;
-    public $show_fields;
-    public $insert_fields;
-    public $update_fields;
-    public $except_column;
     public $index_route = "admin.admins.index";
     public $create_route = "admin.admins.create";
     public $store_route = "admin.admins.store";
+    public $edit_route = "admin.admins.edit";
+    public $update_route = "admin.admins.update";
 
     public function __construct()
     {
         $this->checkGuard();
+        Paginator::useBootstrapFive();
         $this->pageHeader = [
-            'title' => "Admin",
+            'title' => "Admins",
             'sub_title' => "",
             'plural_name' => "admins",
-            'singular_name' => "admin",
+            'singular_name' => "Admin",
             'index_route' => route($this->index_route),
             'create_route' => route($this->create_route),
-            'store_route' => route($this->store_route),
+            'store_route' => $this->store_route,
+            'edit_route' => $this->edit_route,
+            'update_route' => $this->update_route,
             'base_url' => url('admin/admins'),
 
         ];
@@ -43,11 +44,9 @@ class AdminController extends Controller
     public function index()
     {
         $this->checkOwnPermission('admin.view');
-
-        $pageHeader = $this->pageHeader;
-
-        $admins = Admin::all();
-        return view('backend.pages.admins.index',compact('admins','pageHeader'));
+        $data['pageHeader'] = $this->pageHeader;
+        $data['datas'] = Admin::orderBy('id', 'DESC')->paginate(10);
+        return view('backend.pages.admins.index', $data);
     }
 
     /**
@@ -58,9 +57,9 @@ class AdminController extends Controller
     public function create()
     {
         $this->checkOwnPermission('admin.create');
-        $pageHeader = $this->pageHeader;
-        $roles = Role::all();
-        return view('backend.pages.admins.create',compact('roles','pageHeader'));
+        $data['pageHeader'] = $this->pageHeader;
+        $data['roles'] = Role::all();
+        return view('backend.pages.admins.create', $data);
     }
 
     /**
@@ -74,10 +73,10 @@ class AdminController extends Controller
         $this->checkOwnPermission('admin.create');
 
         $request->validate([
-            'name'=> 'required|max:50',
-            'email'=> 'required|unique:admins',
-            'password'=> 'required|min:8|confirmed',
-        ],[
+            'name' => 'required|max:50',
+            'email' => 'required|unique:admins',
+            'password' => 'required|min:8|confirmed',
+        ], [
             'name.required' => 'Please Insert New Admin Name'
         ]);
         $user = new Admin();
@@ -85,22 +84,15 @@ class AdminController extends Controller
         $user->username = $request->username;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
-        $user->save();
         if ($request->roles) {
             $user->assignRole($request->roles);
         }
-        session()->flash('success','Admin has Been created');
-        return redirect()->route('admin.admins.index');
 
-
-        // $user = Admin::create(['name' => $request->name]);
-        // $permissions = $request->permissions;
-        // if ($user) {
-        //     if (!empty($permissions)) {
-        //         $user->syncPermissions($permissions);
-        //     }
-        //     return back()->with('success','New Admin Created');
-        // }
+        if ($user->save()) {
+            return redirectRouteHelper($this->index_route);
+        } else {
+            return redirectRouteHelper();
+        }
     }
 
     /**
@@ -124,10 +116,10 @@ class AdminController extends Controller
     public function edit($id)
     {
         $this->checkOwnPermission('admin.edit');
-        $pageHeader = $this->pageHeader;
-        $admin = Admin::find($id);
-        $roles = Role::all();
-        return view('backend.pages.admins.edit',compact('admin','roles','pageHeader'));
+        $data['pageHeader'] = $this->pageHeader;
+        $data['singleData'] = Admin::find($id);
+        $data['roles'] = Role::all();
+        return view('backend.pages.admins.edit', $data);
     }
 
     /**
@@ -143,26 +135,29 @@ class AdminController extends Controller
 
         $user = Admin::find($id);
         $request->validate([
-            'name'=> 'required|max:50',
-            'email'=> 'required|email|unique:admins,email,'.$id,
-            'password'=> 'nullable|min:8|confirmed',
-        ],[
+            'name' => 'required|max:50',
+            'email' => 'required|email|unique:admins,email,' . $id,
+            'password' => 'nullable|min:8|confirmed',
+        ], [
             'name.required' => 'Please Insert New Admin Name'
         ]);
-        // $user = new Admin();
+
         $user->name = $request->name;
         $user->email = $request->email;
-        if ($request->password !=null) {
+        if ($request->password != null) {
             $user->password = Hash::make($request->password);
         }
-        $user->save();
+
         $user->roles()->detach();
         if ($request->roles) {
             $user->assignRole($request->roles);
         }
-        session()->flash('success','Admin has Been Updated');
-        return back();
 
+        if ($user->save()) {
+            return redirectUpdateRoute($this->index_route);
+        } else {
+            return redirectRouteHelper();
+        }
     }
 
     /**
@@ -174,13 +169,14 @@ class AdminController extends Controller
     public function destroy($id)
     {
         $this->checkOwnPermission('admin.delete');
-         $user = Admin::findById($id);
-         if (!is_null($user)) {
-             $user->delete();
-         }
-         session()->flash('success','user has been deleted');
-         return back();
+        $deleteData = Admin::find($id);
 
+        if (!is_null($deleteData)) {
+            if ($deleteData->delete()) {
+                return response()->json(['status' => 200]);
+            } else {
+                return response()->json(['status' => 422]);
+            }
+        }
     }
 }
-

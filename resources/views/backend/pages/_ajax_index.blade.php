@@ -37,27 +37,29 @@
                                                         <i data-feather="x"></i>
                                                     </button>
                                                 </div>
-                                                <form  method="POST" id="data-insert" enctype="multipart/form-data">
+                                                <form method="POST" id="data-insert" enctype="multipart/form-data">
                                                     <div class="alert alert-danger" style="display:none"></div>
 
 
 
                                                     <div class="modal-body">
-                                                    @foreach ($insert_fields as $input)
-                                                        @include('backend.pages.components._inputs._input_1',
-                                                            $input)
-                                                    @endforeach
+                                                        @foreach ($insert_fields as $input)
+                                                            @include(
+                                                                'backend.pages.components._inputs._input_1',
+                                                                $input)
+                                                        @endforeach
 
 
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-light-secondary"
-                                                        data-bs-dismiss="modal">
-                                                        <i class="bx bx-x d-block d-sm-none"></i>
-                                                        <span class="d-none d-sm-block">Close</span>
-                                                    </button>
-                                                    <button type="submit" class="btn btn-primary add_student">Save</button>
-                                                </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-light-secondary"
+                                                            data-bs-dismiss="modal">
+                                                            <i class="bx bx-x d-block d-sm-none"></i>
+                                                            <span class="d-none d-sm-block">Close</span>
+                                                        </button>
+                                                        <button type="submit"
+                                                            class="btn btn-primary add_student">Save</button>
+                                                    </div>
                                                 </form>
                                             </div>
                                         </div>
@@ -75,23 +77,25 @@
                                                         <i data-feather="x"></i>
                                                     </button>
                                                 </div>
-                                                <form style="overflow: auto;"  method="POST" id="data-update" enctype="multipart/form-data">
-                                                <div class="modal-body">
+                                                <form style="overflow: auto;" method="POST" id="data-update"
+                                                    enctype="multipart/form-data">
+                                                    <div class="modal-body">
 
-                                                    @foreach ($update_fields as $input)
-                                                        @include('backend.pages.components._inputs._input_1',
-                                                            $input)
-                                                    @endforeach
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-light-secondary"
-                                                        data-bs-dismiss="modal">
-                                                        <i class="bx bx-x d-block d-sm-none"></i>
-                                                        <span class="d-none d-sm-block">Close</span>
-                                                    </button>
-                                                    <button type="submit"
-                                                        class="btn btn-primary update_student">Save</button>
-                                                </div>
+                                                        @foreach ($update_fields as $input)
+                                                            @include(
+                                                                'backend.pages.components._inputs._input_1',
+                                                                $input)
+                                                        @endforeach
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-light-secondary"
+                                                            data-bs-dismiss="modal">
+                                                            <i class="bx bx-x d-block d-sm-none"></i>
+                                                            <span class="d-none d-sm-block">Close</span>
+                                                        </button>
+                                                        <button type="submit"
+                                                            class="btn btn-primary update_student">Save</button>
+                                                    </div>
                                                 </form>
                                             </div>
                                         </div>
@@ -120,29 +124,33 @@
                                 @foreach ($view_data as $value)
                                     <tr id="table-data{{ $value->id }}">
                                         <td>{{ $loop->index + 1 }}</td>
-{{--                                        <td>{{ $value->admin->name }}</td>--}}
+                                        {{--                                        <td>{{ $value->admin->name }}</td> --}}
                                         @foreach ($show_fields as $column)
-
-                                            @if($column['type']=='image')
-                                                <td><img style="width:50px;" src="/images/{{ $value->{$column['name']} }}"></td>
-                                            @elseif($column['type']=='switch')
+                                            @if ($column['type'] == 'image')
+                                                <td><img style="width:50px;" src="/images/{{ $value->{$column['name']} }}">
+                                                </td>
+                                            @elseif($column['type'] == 'switch')
                                                 <td>
                                                     <div class="form-check form-switch">
-                                                        <input  onclick="activeData({{ $value->id }})" {{ $value->{$column['name']} == 1 ? 'checked' : '' }} class="form-check-input" type="checkbox">
+                                                        <input onclick="activeData({{ $value->id }})"
+                                                            {{ $value->{$column['name']} == 1 ? 'checked' : '' }}
+                                                            class="form-check-input" type="checkbox">
                                                     </div>
                                                 </td>
                                             @else
-                                                <td>{{ isset($column['base_array']) ? $value->{$column['base_array']}->{$column['name']}  :  $value->{$column['name']} }}</td>
+                                                <td>{{ isset($column['base_array']) ? $value->{$column['base_array']}->{$column['name']} : $value->{$column['name']} }}
+                                                </td>
                                             @endif
                                         @endforeach
                                         <td>
-                                             @if (Auth::guard('admin')->user()->can($pageHeader['singular_name'].'.edit'))
-                                            <button id="editbtn" value="{{ $value->id }}" class="badge bg-info"
-                                                href="#">Edit</button>
-                                             @endif
-                                            @if (Auth::guard('admin')->user()->can($pageHeader['singular_name'].'.delete'))
-                                            <a class="badge bg-danger" href="#"  onclick="deleteData({{ $value->id }})"  >Delete</a>
-                                             @endif
+                                            @if (Auth::guard('admin')->user()->can($pageHeader['singular_name'] . '.edit'))
+                                                <button id="editbtn" value="{{ $value->id }}" class="badge bg-info"
+                                                    href="#">Edit</button>
+                                            @endif
+                                            @if (Auth::guard('admin')->user()->can($pageHeader['singular_name'] . '.delete'))
+                                                <a class="badge bg-danger" href="#"
+                                                    onclick="deleteData({{ $value->id }})">Delete</a>
+                                            @endif
                                         </td>
 
                                     </tr>
@@ -189,19 +197,28 @@
 
                             $('#large').modal('show');
 
-                                    $(".alert").remove();
-                                $.each(response.errors, function(key, value){
+                            $(".alert").remove();
+                            $.each(response.errors, function(key, value) {
 
-                                    $('[name=' + key + ']').after("<div class='alert alert-danger'>" + value + "</div>");
-                                    // jQuery('.alert-danger').append('<p>'+value+'</p>');
+                                $('[name=' + key + ']').after(
+                                    "<div class='alert alert-danger'>" + value +
+                                    "</div>");
+                                // jQuery('.alert-danger').append('<p>'+value+'</p>');
 
                             });
                         } else {
                             var getid = $(".table tbody");
-getid.prepend('<tr id="table-data'+response.id+'"><td>'+ response.id +'</td>@foreach ($show_fields as $column)<td>'+ response.{{$column["name"]}} + '</td>@endforeach<td><button id="editbtn" value="'+ response.id +'" class="badge bg-info" >Edit</button><a class="badge bg-danger" href="#"  onclick="deleteData('+ response.id +')">Delete</a></td></tr>')
+                            getid.prepend('<tr id="table-data' + response.id + '"><td>' +
+                                response.id +
+                                '</td>@foreach ($show_fields as $column)<td>' + response
+                                .{{ $column['name'] }} +
+                                '</td>@endforeach<td><button id="editbtn" value="' +
+                                response.id +
+                                '" class="badge bg-info" >Edit</button><a class="badge bg-danger" href="#"  onclick="deleteData(' +
+                                response.id + ')">Delete</a></td></tr>')
                             $('#large').modal('hide');
                             @foreach ($insert_fields as $input)
-                            $('#{{ $input['name'] }}').val('');
+                                $('#{{ $input['name'] }}').val('');
                             @endforeach
                         }
                         $('.add_student').text('Save');
@@ -220,18 +237,21 @@ getid.prepend('<tr id="table-data'+response.id+'"><td>'+ response.id +'</td>@for
                 $('#large1').modal('show');
                 $.ajax({
                     type: "GET",
-                    url: "{{ ($pageHeader['base_url']) }}/"+ id + "/edit",
+                    url: "{{ $pageHeader['base_url'] }}/" + id + "/edit",
                     success: function(response) {
                         if (response.status == 404) {
                             $('#large1').modal('hide');
                         } else {
 
                             @foreach ($update_fields as $input)
-                            @if($input['type']=="datetime-local")
-                            $('.{{ $input['name'] }}').val("{{ date('Y-m-d\TH:i:s', strtotime($input['name'])) }}");
+                                @if ($input['type'] == 'datetime-local')
+                                    $('.{{ $input['name'] }}').val(
+                                        "{{ date('Y-m-d\TH:i:s', strtotime($input['name'])) }}"
+                                        );
                                 @else
-                            $('.{{ $input['name'] }}').val(response.student.{{ $input['name'] }});
-                               @endif
+                                    $('.{{ $input['name'] }}').val(response.student
+                                        .{{ $input['name'] }});
+                                @endif
                             @endforeach
                             // $('#id').val('id');
                         }
@@ -242,7 +262,7 @@ getid.prepend('<tr id="table-data'+response.id+'"><td>'+ response.id +'</td>@for
 
 
             //Update Data
-                $("#data-update").submit(function(e) {
+            $("#data-update").submit(function(e) {
                 e.preventDefault();
                 const fd = new FormData(this);
                 e.preventDefault();
@@ -252,12 +272,12 @@ getid.prepend('<tr id="table-data'+response.id+'"><td>'+ response.id +'</td>@for
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
-                    var id = $(this).closest("form").find('.id').val();
-                    console.log(id)
+                var id = $(this).closest("form").find('.id').val();
+                console.log(id)
 
 
                 $.ajax({
-                    url: "{{ ($pageHeader['base_url']) }}"+id,
+                    url: "{{ $pageHeader['base_url'] }}" + id,
                     method: 'post',
                     data: fd,
                     cache: false,
@@ -271,7 +291,13 @@ getid.prepend('<tr id="table-data'+response.id+'"><td>'+ response.id +'</td>@for
                         } else {
                             deleteData1(id)
                             var getid = $(".table tbody");
-getid.prepend('<tr id="table-data'+id+'"><td>'+ id +'</td>@foreach ($show_fields as $column)<td>'+ response.{{$column["name"]}} + '</td>@endforeach<td><button id="editbtn" value="'+ id +'" class="badge bg-info" >Edit</button><a class="badge bg-danger" href="#"  onclick="deleteData('+ id +')">Delete</a></td></tr>')
+                            getid.prepend('<tr id="table-data' + id + '"><td>' + id +
+                                '</td>@foreach ($show_fields as $column)<td>' + response
+                                .{{ $column['name'] }} +
+                                '</td>@endforeach<td><button id="editbtn" value="' +
+                                id +
+                                '" class="badge bg-info" >Edit</button><a class="badge bg-danger" href="#"  onclick="deleteData(' +
+                                id + ')">Delete</a></td></tr>')
                             $('#large1').modal('hide');
                             $('input').val('');
 
@@ -282,57 +308,58 @@ getid.prepend('<tr id="table-data'+id+'"><td>'+ id +'</td>@foreach ($show_fields
 
             });
         });
-            function deleteData(id) {
-        Swal.fire({
-            title: "Are you Sure?",
-            text: "IF confirm data will deleted",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true,
-                            didOpen: (toast) => {
-                                toast.addEventListener('mouseenter', Swal.stopTimer)
-                                toast.addEventListener('mouseleave', Swal.resumeTimer)
-                            }
-                        })
-                $.ajax({
-                    type: "DELETE",
-                    url: "{{ ($pageHeader['base_url']) }}/" + id,
-                    data: {
-                        _token: $("input[name=_token]").val()
-                    },
-                    success: function(response) {
 
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Thank you'
-                        })
-                        $("#table-data" + id).remove();
+        function deleteData(id) {
+            Swal.fire({
+                title: "Are you Sure?",
+                text: "If confirm data will deleted",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    })
+                    $.ajax({
+                        type: "DELETE",
+                        url: "{{ $pageHeader['base_url'] }}/" + id,
+                        data: {
+                            _token: $("input[name=_token]").val()
+                        },
+                        success: function(response) {
 
-                    },
-                    error: function(response) {
-                        Toast.fire({
-                            icon: 'error',
-                            title: 'Something went wrong'
-                        })
-                    },
-                });
-            }
-        })
-    }
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Thank you'
+                            })
+                            $("#table-data" + id).remove();
 
-    function deleteData1(id) {
-        $("#table-data" + id).remove();
-    }
+                        },
+                        error: function(response) {
+                            Toast.fire({
+                                icon: 'error',
+                                title: 'Something went wrong'
+                            })
+                        },
+                    });
+                }
+            })
+        }
+
+        function deleteData1(id) {
+            $("#table-data" + id).remove();
+        }
 
         function activeData(id) {
 
@@ -348,7 +375,7 @@ getid.prepend('<tr id="table-data'+id+'"><td>'+ id +'</td>@foreach ($show_fields
                 }
             })
             $.ajax({
-                url: "{{ ($pageHeader['base_url']) }}/"+id,
+                url: "{{ $pageHeader['base_url'] }}/" + id,
                 type: "GET",
                 data: {
                     _token: $("input[name=_token]").val()
@@ -371,11 +398,6 @@ getid.prepend('<tr id="table-data'+id+'"><td>'+ id +'</td>@foreach ($show_fields
 
 
         }
-
-
-
-
-
     </script>
 
 @endsection

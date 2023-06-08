@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title','Laravel Role Admin')</title>
+    <title>@yield('title', 'Laravel Role Admin')</title>
 
     @include('backend.layouts.partials.style')
 
@@ -25,27 +25,26 @@
                 </a>
             </header>
 
+            @yield('admin-content')
 
-           @yield('admin-content')
-
-
-           <footer>
-            <div class="footer clearfix mb-0 text-muted">
-                <div class="float-start">
-                    <p>{{ date('Y') }} &copy; Dipta</p>
+            <footer>
+                <div class="footer clearfix mb-0 text-muted">
+                    <div class="float-start">
+                        <p>{{ date('Y') }} &copy; Dipta</p>
+                    </div>
+                    <div class="float-end">
+                        <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
+                                href="http://ahmadsaugi.com">A. Saugi</a></p>
+                    </div>
                 </div>
-                <div class="float-end">
-                    <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
-                            href="http://ahmadsaugi.com">A. Saugi</a></p>
-                </div>
-            </div>
-        </footer>
+            </footer>
+            
+        </div>
     </div>
-    </div>
-   @include('backend.layouts.partials.script')
-   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-{{-- @include('backend.layouts.partials.message') --}}
-@include('sweetalert::alert')
+    @include('backend.layouts.partials.script')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    {{-- @include('backend.layouts.partials.message') --}}
+    @include('sweetalert::alert')
 </body>
 
 </html>

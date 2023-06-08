@@ -1,44 +1,41 @@
 <?php
+
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Pagination\Paginator;
 
 class RolesController extends Controller
 {
-    public $user;
     public $pageHeader;
-    public $show_fields;
-    public $insert_fields;
-    public $update_fields;
-    public $except_column;
-    public $index_route = "admin.demos.index";
-    public $create_route = "admin.demos.create";
-    public $store_route = "admin.demos.store";
+    public $index_route = "admin.roles.index";
+    public $create_route = "admin.roles.create";
+    public $store_route = "admin.roles.store";
+    public $edit_route = "admin.roles.edit";
+    public $update_route = "admin.roles.update";
+
     public function __construct()
     {
         $this->checkGuard();
+        Paginator::useBootstrapFive();
         $this->pageHeader = [
-            'title' => "Demo",
+            'title' => "Roles",
             'sub_title' => "",
-            'plural_name' => "demo",
-            'singular_name' => "demos",
+            'plural_name' => "roles",
+            'singular_name' => "Role",
             'index_route' => route($this->index_route),
             'create_route' => route($this->create_route),
-            'store_route' => route($this->store_route),
-            'base_url' => url('admin/demos'),
+            'store_route' => $this->store_route,
+            'edit_route' => $this->edit_route,
+            'update_route' => $this->update_route,
+            'base_url' => url('admin/roles'),
 
         ];
     }
-
-
-
-
 
     /**
      * Display a listing of the resource.
@@ -48,10 +45,9 @@ class RolesController extends Controller
     public function index()
     {
         $this->checkOwnPermission('role.view');
-        $pageHeader = $this->pageHeader;
-
-        $roles = Role::all();
-        return view('backend.pages.roles.index',compact('roles','pageHeader'));
+        $data['pageHeader'] = $this->pageHeader;
+        $data['datas'] = Role::orderBy('id', 'DESC')->paginate(10);
+        return view('backend.pages.roles.index', $data);
     }
 
     /**
@@ -62,11 +58,10 @@ class RolesController extends Controller
     public function create()
     {
         $this->checkOwnPermission('role.create');
-        $pageHeader = $this->pageHeader;
-
-        $permission_groups=Admin::getpermissionGroups();
-        $permissions = Permission::all();
-        return view('backend.pages.roles.create',compact('permissions','permission_groups','pageHeader'));
+        $data['pageHeader'] = $this->pageHeader;
+        $data['permission_groups'] = Admin::getpermissionGroups();
+        $data['permissions'] = Permission::all();
+        return view('backend.pages.roles.create', $data);
     }
 
     /**
@@ -79,8 +74,8 @@ class RolesController extends Controller
     {
         $this->checkOwnPermission('role.create');
         $request->validate([
-            'name'=> 'required|max:100|unique:roles'
-        ],[
+            'name' => 'required|max:100|unique:roles'
+        ], [
             'name.required' => 'Please Insert New Role Name'
         ]);
         $role = Role::create(['name' => $request->name, 'guard_name' => 'admin']);
@@ -89,7 +84,9 @@ class RolesController extends Controller
             if (!empty($permissions)) {
                 $role->syncPermissions($permissions);
             }
-            return back()->with('success','New Role Created');
+            return redirectRouteHelper($this->index_route);
+        } else {
+            return redirectRouteHelper();
         }
     }
 
@@ -113,12 +110,11 @@ class RolesController extends Controller
     public function edit($id)
     {
         $this->checkOwnPermission('role.edit');
-        $pageHeader = $this->pageHeader;
-
-        $role = Role::findById($id,'admin');
-        $permission_groups=Admin::getpermissionGroups();
-        $permissions = Permission::all();
-        return view('backend.pages.roles.edit',compact('role','permissions','permission_groups','pageHeader'));
+        $data['pageHeader'] = $this->pageHeader;
+        $data['singleData'] = Role::findById($id, 'admin');
+        $data['permission_groups'] = Admin::getpermissionGroups();
+        $data['permissions'] = Permission::all();
+        return view('backend.pages.roles.edit', $data);
     }
 
     /**
@@ -132,12 +128,11 @@ class RolesController extends Controller
     {
         $this->checkOwnPermission('role.edit');
         $request->validate([
-            'name'=> 'required|max:100'
-        ],[
+            'name' => 'required|max:100'
+        ], [
             'name.required' => 'Please Insert New Role Name'
         ]);
-        // $role = Role::create(['name' => $request->name]);
-        $role = Role::findById($id,'admin');
+        $role = Role::findById($id, 'admin');
         $permissions = $request->permissions;
         if ($role) {
             if (!empty($permissions)) {
@@ -145,7 +140,9 @@ class RolesController extends Controller
                 $role->save();
                 $role->syncPermissions($permissions);
             }
-            return back()->with('success','New Role Created');
+            return redirectUpdateRoute($this->index_route);
+        } else {
+            return redirectRouteHelper();
         }
     }
 
@@ -158,13 +155,14 @@ class RolesController extends Controller
     public function destroy($id)
     {
         $this->checkOwnPermission('role.delete');
-        $role = Role::findById($id,'admin');
-        if (!is_null($role)) {
-            $role->delete();
-        }
-        session()->flash('success','user has been deleted');
-        return back();
+        $deleteData = Role::find($id);
 
+        if (!is_null($deleteData)) {
+            if ($deleteData->delete()) {
+                return response()->json(['status' => 200]);
+            } else {
+                return response()->json(['status' => 422]);
+            }
+        }
     }
 }
-

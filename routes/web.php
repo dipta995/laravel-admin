@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Backend\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\DemoController;
+use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\RolesController;
 use App\Http\Controllers\Backend\TestController;
 use App\Http\Controllers\Backend\UserController;
@@ -45,6 +46,8 @@ Route::resource('tests', TestController::class,['names'=>'tests']);
 Route::post('/test/update/{id}',[TestController::class,'update'])->name('updatetest');
 Route::resource('demos', DemoController::class,['names'=>'demos']);
 //Route::post('/demo/update/{id}',[DemoController::class,'update'])->name('updatedemo');
+Route::resource('posts', PostController::class, ['names' => 'posts']);
+Route::get('posts/status/{slug}', [PostController::class, 'isActive'])->name('posts.status');
 });
 Route::get('/dashboard', function () {
     return view('dashboard');

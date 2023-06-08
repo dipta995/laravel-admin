@@ -39,7 +39,7 @@ class DemoController extends Controller
             'base_url' => url('admin/demos'),
 
         ];
-        $this->except_column= ['_token'];
+        $this->except_column = ['_token'];
         $this->show_fields =
             [
                 [
@@ -47,31 +47,31 @@ class DemoController extends Controller
                     'base_array' => 'admin',
                     'name' => "name",
                     'length' => "",
-                    'type'=>''
+                    'type' => ''
                 ],
                 [
                     'view_name' => "Email",
                     'name' => "email",
                     'length' => "",
-                    'type'=>''
+                    'type' => ''
                 ],
                 [
                     'view_name' => "Password",
                     'name' => "password",
                     'length' => "",
-                    'type'=>''
+                    'type' => ''
                 ],
                 [
                     'view_name' => "File",
                     'name' => "file",
                     'length' => "",
-                    'type'=>'image'
+                    'type' => 'image'
                 ],
                 [
                     'view_name' => "Is Active",
                     'name' => "is_active",
                     'length' => "",
-                    'type'=>'switch'
+                    'type' => 'switch'
                 ],
 
             ];
@@ -81,40 +81,40 @@ class DemoController extends Controller
                     'title' => "select_admin_id",
                     'name' => "select_admin_id",
                     'type' => "text",
-                    'field'=>"select",
-                    'modelData'=>'\Admin',
-                    'view_index'=>"name",
-//                    'required' => "",
+                    'field' => "select",
+                    'modelData' => '\Admin',
+                    'view_index' => "name",
+                    //                    'required' => "",
                 ],
                 [
                     'title' => "multiple_admin_id",
                     'name' => "multiple_admin_id",
                     'type' => "text",
-                    'field'=>"select",
-                    'modelData'=>'\Admin',
-                    'view_index'=>"name",
-//                    'required' => "",
+                    'field' => "select",
+                    'modelData' => '\Admin',
+                    'view_index' => "name",
+                    //                    'required' => "",
                     'multiple' => "multiple",
                 ],
                 [
                     'title' => "color",
                     'name' => "color",
                     'type' => "color",
-                    'field'=>"input",
+                    'field' => "input",
                     'placeholder' => "Enter Email",
                 ],
                 [
                     'title' => "date",
                     'name' => "date",
                     'type' => "date",
-                    'field'=>"input",
+                    'field' => "input",
                     'placeholder' => "Enter Email",
                 ],
                 [
                     'title' => "datetime-local",
                     'name' => "datetime-local",
                     'type' => "datetime-local",
-                    'field'=>"input",
+                    'field' => "input",
                     'placeholder' => "Enter Email",
                 ],
 
@@ -122,7 +122,7 @@ class DemoController extends Controller
                     'title' => "email",
                     'name' => "email",
                     'type' => "email",
-                    'field'=>"input",
+                    'field' => "input",
                     'placeholder' => "Enter Email",
                 ],
 
@@ -131,33 +131,33 @@ class DemoController extends Controller
                     'title' => "number",
                     'name' => "number",
                     'type' => "number",
-                    'field'=>"input",
+                    'field' => "input",
                     'placeholder' => "Enter Email",
                 ],
                 [
                     'title' => "file",
                     'name' => "file",
                     'type' => "file",
-                    'field'=>"input",
+                    'field' => "input",
                     'placeholder' => "Enter Email",
                 ],
-//                [
-//                    'title' => "file_multiple",
-//                    'name' => "file_multiple[]",
-//                    'type' => "multiple",
-//                    'field'=>"input",
-//                    'placeholder' => "Enter Email",
-//                ],
-            [
-                'title' => "password",
-                'name' => "password",
-                'type' => "password",
-                'field'=>"input",
-                'placeholder' => "Enter Email",
-            ],
+                //                [
+                //                    'title' => "file_multiple",
+                //                    'name' => "file_multiple[]",
+                //                    'type' => "multiple",
+                //                    'field'=>"input",
+                //                    'placeholder' => "Enter Email",
+                //                ],
+                [
+                    'title' => "password",
+                    'name' => "password",
+                    'type' => "password",
+                    'field' => "input",
+                    'placeholder' => "Enter Email",
+                ],
 
 
-        ];
+            ];
         $this->update_fields =
             [
 
@@ -165,50 +165,50 @@ class DemoController extends Controller
                     'title' => "id",
                     'name' => "id",
                     'type' => "hidden",
-                    'field'=>"input",
+                    'field' => "input",
                     'placeholder' => "",
-//                    'required' => "",
-                    'update'=>""
+                    //                    'required' => "",
+                    'update' => ""
                 ],
 
                 [
                     'title' => "select_admin_id",
                     'name' => "select_admin_id",
                     'type' => "text",
-                    'field'=>"select",
-                    'modelData'=>'\Admin',
-                    'view_index'=>"name",
+                    'field' => "select",
+                    'modelData' => '\Admin',
+                    'view_index' => "name",
                     'update' => "",
                 ],
                 [
                     'title' => "multiple_admin_id",
                     'name' => "multiple_admin_id",
                     'type' => "text",
-                    'field'=>"select",
-                    'modelData'=>'\Admin',
-                    'view_index'=>"name",
-//                'required' => "",
+                    'field' => "select",
+                    'modelData' => '\Admin',
+                    'view_index' => "name",
+                    //                'required' => "",
                     'multiple' => "multiple",
                 ],
                 [
                     'title' => "color",
                     'name' => "color",
                     'type' => "color",
-                    'field'=>"input",
+                    'field' => "input",
                     'update' => "",
                 ],
                 [
                     'title' => "date",
                     'name' => "date",
                     'type' => "date",
-                    'field'=>"input",
+                    'field' => "input",
                     'update' => "",
                 ],
                 [
                     'title' => "datetime-local",
                     'name' => "datetime-local",
                     'type' => "datetime-local",
-                    'field'=>"input",
+                    'field' => "input",
                     'update' => "",
                 ],
 
@@ -216,7 +216,7 @@ class DemoController extends Controller
                     'title' => "email",
                     'name' => "email",
                     'type' => "email",
-                    'field'=>"input",
+                    'field' => "input",
                     'update' => "",
                 ],
 
@@ -225,32 +225,32 @@ class DemoController extends Controller
                     'title' => "number",
                     'name' => "number",
                     'type' => "number",
-                    'field'=>"input",
+                    'field' => "input",
                     'update' => "",
                 ],
                 [
                     'title' => "file",
                     'name' => "file",
                     'type' => "file",
-                    'field'=>"input",
+                    'field' => "input",
                     'update' => "",
                 ],
-//                [
-//                    'title' => "file_multiple",
-//                    'name' => "file_multiple[]",
-//                    'type' => "multiple",
-//                    'field'=>"input",
-//                    'placeholder' => "Enter Email",
-//                ],
-            [
-                'title' => "password",
-                'name' => "password",
-                'type' => "password",
-                'field'=>"input",
-                'update' => "",
-            ],
+                //                [
+                //                    'title' => "file_multiple",
+                //                    'name' => "file_multiple[]",
+                //                    'type' => "multiple",
+                //                    'field'=>"input",
+                //                    'placeholder' => "Enter Email",
+                //                ],
+                [
+                    'title' => "password",
+                    'name' => "password",
+                    'type' => "password",
+                    'field' => "input",
+                    'update' => "",
+                ],
 
-        ];
+            ];
     }
     /**
      * Display a listing of the resource.
@@ -259,8 +259,8 @@ class DemoController extends Controller
      */
     public function index()
     {
-        if (is_null($this->user) || !$this->user->can($this->pageHeader['singular_name'].'.view')) {
-            abort(403,'Unauthorized Access');
+        if (is_null($this->user) || !$this->user->can($this->pageHeader['singular_name'] . '.view')) {
+            abort(403, 'Unauthorized Access');
         }
 
         $data['pageHeader'] = $this->pageHeader;
@@ -269,7 +269,7 @@ class DemoController extends Controller
         $data['update_fields'] = $this->update_fields;
         $data['view_data'] = Demo::with('admin:id,name')->get();
         $data['route_create'] = route('admin.demos.store');
-        return view('backend.pages._ajax_index',$data);
+        return view('backend.pages._ajax_index', $data);
     }
 
     /**
@@ -279,8 +279,8 @@ class DemoController extends Controller
      */
     public function create()
     {
-        if (is_null($this->user) || !$this->user->can($this->pageHeader['singular_name'].'.create')) {
-            abort(403,'Unauthorized Access');
+        if (is_null($this->user) || !$this->user->can($this->pageHeader['singular_name'] . '.create')) {
+            abort(403, 'Unauthorized Access');
         }
     }
 
@@ -292,38 +292,37 @@ class DemoController extends Controller
      */
     public function store(Request $request)
     {
-         if (is_null($this->user) || !$this->user->can($this->pageHeader['singular_name'].'.create')) {
-             abort(403,'Unauthorized Access');
-         }
+        if (is_null($this->user) || !$this->user->can($this->pageHeader['singular_name'] . '.create')) {
+            abort(403, 'Unauthorized Access');
+        }
         $validator = Validator::make($request->all(), [
-//            'number' => 'required|min:2',
-//            'select_admin_id' => 'required',
-//            'email' => 'required|email|unique:demos',
-//            'date' => 'date',
-//            'color' => 'required',
-//            'password' => 'required|min:8',
+            //            'number' => 'required|min:2',
+            //            'select_admin_id' => 'required',
+            //            'email' => 'required|email|unique:demos',
+            //            'date' => 'date',
+            //            'color' => 'required',
+            //            'password' => 'required|min:8',
         ]);
         if ($validator->fails())   //check all validations are fine, if not then redirect and show error messages
         {
 
             return response()->json(
-                ['status'=> 422,
-                    'errors'=>$validator->errors()
-                ]);
-
+                [
+                    'status' => 422,
+                    'errors' => $validator->errors()
+                ]
+            );
         }
         //  $send = Demo::insert($request->except($this->except_column));
         $send = new Demo();
         foreach ($this->insert_fields as $key => $value) {
-            if ($value['type']=='file') {
+            if ($value['type'] == 'file') {
                 $file = $request->file($value['name']);
-                $send->{$value['name']}= imageUpload($file);
-
-            }elseif(isset($value['multiple'])) {
+                $send->{$value['name']} = imageUpload($file);
+            } elseif (isset($value['multiple'])) {
 
                 $send->{$value['name']} = json_encode($request->{$value['name']});
-            }
-            else{
+            } else {
 
                 $send->{$value['name']} = $request->{$value['name']};
             }
@@ -331,16 +330,15 @@ class DemoController extends Controller
 
         $send->save();
         $send->id;
-//         return back();
-        if ($send){
+        //         return back();
+        if ($send) {
             return response()->json($send);
-        }else{
+        } else {
             return response()->json([
-                'status'=>400,
-                'errors'=>"error"
+                'status' => 400,
+                'errors' => "error"
             ]);
         }
-
     }
 
     /**
@@ -363,7 +361,6 @@ class DemoController extends Controller
         Demo::where('id', $id)->update([
             'is_active' =>  $status
         ]);
-
     }
 
     /**
@@ -375,18 +372,18 @@ class DemoController extends Controller
     public function edit($id)
     {
         if (is_null($this->user) || !$this->user->can('admin.edit')) {
-            abort(403,'Unauthorized Access');
+            abort(403, 'Unauthorized Access');
         }
-         $data = Demo::find($id);
-        if ($data){
+        $data = Demo::find($id);
+        if ($data) {
             return response()->json([
-                'status'=>200,
-                'student'=>$data
+                'status' => 200,
+                'student' => $data
             ]);
-        }else{
+        } else {
             return response()->json([
-                'status'=>404,
-                'message'=>"error"
+                'status' => 404,
+                'message' => "error"
             ]);
         }
     }
@@ -398,46 +395,42 @@ class DemoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
-         if (is_null($this->user) || !$this->user->can($this->pageHeader['singular_name'].'.edit')) {
-             abort(403,'Unauthorized Access');
-         }
+        if (is_null($this->user) || !$this->user->can($this->pageHeader['singular_name'] . '.edit')) {
+            abort(403, 'Unauthorized Access');
+        }
 
         $send = Demo::findOrFail($id);
         foreach ($this->insert_fields as $key => $value) {
 
-            if ($value['type']=='file') {
-                if($request->hasFile($value['name']))
-                {
+            if ($value['type'] == 'file') {
+                if ($request->hasFile($value['name'])) {
                     $file = $request->file($value['name']);
                     $file_name = time() . '.' . $file->getClientOriginalExtension();
-                    $send->{$value['name']}= $file_name;
+                    $send->{$value['name']} = $file_name;
                     $file->move(public_path('images/'), $file_name);
                 }
-
-            }elseif(isset($value['multiple'])) {
+            } elseif (isset($value['multiple'])) {
 
                 $send->{$value['name']} = json_encode($request->{$value['name']});
-            }
-            else{
+            } else {
 
                 $send->{$value['name']} = $request->{$value['name']};
             }
         }
         $send->save();
-        if ($send){
+        if ($send) {
             return response()->json($send);
-        }else{
+        } else {
             return response()->json([
-                'status'=>400,
-                'errors'=>"error"
+                'status' => 400,
+                'errors' => "error"
             ]);
         }
 
 
         return back();
-
     }
 
     /**
@@ -448,15 +441,14 @@ class DemoController extends Controller
      */
     public function destroy($id)
     {
-        if (is_null($this->user) || !$this->user->can($this->pageHeader['singular_name'].'.delete')) {
-            abort(403,'Unauthorized Access');
+        if (is_null($this->user) || !$this->user->can($this->pageHeader['singular_name'] . '.delete')) {
+            abort(403, 'Unauthorized Access');
         }
         $data = Demo::find($id);
         $data->delete();
         return response()->json([
-            'status'=>200,
-            'message'=>'Successfull.'
+            'status' => 200,
+            'message' => 'Successfull.'
         ]);
     }
 }
-
