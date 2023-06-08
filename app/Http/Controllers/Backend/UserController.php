@@ -5,24 +5,35 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use Illuminate\Pagination\Paginator;
 
 class UserController extends Controller
 {
-    public $user;
     public $pageHeader;
+    public $index_route = "admin.users.index";
+    public $create_route = "admin.users.create";
+    public $store_route = "admin.users.store";
+    public $edit_route = "admin.users.edit";
+    public $update_route = "admin.users.update";
 
     public function __construct()
     {
         $this->checkGuard();
+        Paginator::useBootstrapFive();
         $this->pageHeader = [
-            'title' => "Dashboard",
+            'title' => "Users",
             'sub_title' => "",
-            'plural_name' => "dashboards",
-            'index_button' => "admin.dashboards.index",
-            'create_button' => "admin.dashboards.index"
+            'plural_name' => "users",
+            'singular_name' => "User",
+            'index_route' => route($this->index_route),
+            'create_route' => route($this->create_route),
+            'store_route' => $this->store_route,
+            'edit_route' => $this->edit_route,
+            'update_route' => $this->update_route,
+            'base_url' => url('admin/users'),
+
         ];
     }
     /**
@@ -33,10 +44,9 @@ class UserController extends Controller
     public function index()
     {
         $this->checkOwnPermission('user.view');
-        $pageHeader = $this->pageHeader;
-
-        $users = User::all();
-        return view('backend.pages.users.index',compact('users','pageHeader'));
+        $data['pageHeader'] = $this->pageHeader;
+        $data['datas'] = User::orderBy('id', 'DESC')->paginate(10);
+        return view('backend.pages.users.index', $data);
     }
 
     /**
@@ -47,10 +57,8 @@ class UserController extends Controller
     public function create()
     {
         $this->checkOwnPermission('user.create');
-        $pageHeader = $this->pageHeader;
-
-        $roles = Role::all();
-        return view('backend.pages.users.create',compact('roles','pageHeader'));
+        $data['pageHeader'] = $this->pageHeader;
+        return view('backend.pages.users.create', $data);
     }
 
     /**
@@ -73,22 +81,11 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
-        $user->save();
-        if ($request->roles) {
-            $user->assignRole($request->roles);
+        if ($user->save()) {
+            return redirectRouteHelper($this->index_route);
+        } else {
+            return redirectRouteHelper();
         }
-        session()->flash('success','User has Been created');
-        return redirect()->route('admin.users.index');
-
-
-        // $user = User::create(['name' => $request->name]);
-        // $permissions = $request->permissions;
-        // if ($user) {
-        //     if (!empty($permissions)) {
-        //         $user->syncPermissions($permissions);
-        //     }
-        //     return back()->with('success','New User Created');
-        // }
     }
 
     /**
@@ -111,11 +108,9 @@ class UserController extends Controller
     public function edit($id)
     {
         $this->checkOwnPermission('user.edit');
-        $pageHeader = $this->pageHeader;
-
-        $user = User::find($id);
-        $roles = Role::all();
-        return view('backend.pages.users.edit',compact('user','roles','pageHeader'));
+        $data['pageHeader'] = $this->pageHeader;
+        $data['singleData'] = User::find($id);
+        return view('backend.pages.users.edit', $data);
     }
 
     /**
@@ -143,14 +138,12 @@ class UserController extends Controller
         if ($request->password !=null) {
             $user->password = Hash::make($request->password);
         }
-        $user->save();
-        $user->roles()->detach();
-        if ($request->roles) {
-            $user->assignRole($request->roles);
-        }
-        session()->flash('success','User has Been Updated');
-        return back();
 
+        if ($user->save()) {
+            return redirectUpdateRoute($this->index_route);
+        } else {
+            return redirectRouteHelper();
+        }
     }
 
     /**
@@ -162,12 +155,15 @@ class UserController extends Controller
     public function destroy($id)
     {
         $this->checkOwnPermission('user.delete');
-         $user = User::findById($id);
-         if (!is_null($user)) {
-             $user->delete();
-         }
-         session()->flash('success','user has been deleted');
-         return back();
+        $deleteData = User::find($id);
+
+        if (!is_null($deleteData)) {
+            if ($deleteData->delete()) {
+                return response()->json(['status' => 200]);
+            } else {
+                return response()->json(['status' => 422]);
+            }
+        }
 
     }
 }
